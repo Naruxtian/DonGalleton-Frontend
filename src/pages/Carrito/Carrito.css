@@ -1,0 +1,23 @@
+.Carrito{
+    text-align: center;
+    padding: 10px;
+}
+
+.Carrito input{
+    width: 100%;
+    border-radius: 10px;
+}
+.Carrito table{
+    width: 100%;
+}
+thead{
+    background-color: rgb(192, 190, 190);
+}
+
+.totalPagar{
+    text-align: end;
+}
+
+.total{
+    color: red
+}

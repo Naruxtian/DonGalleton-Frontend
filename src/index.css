@@ -1,0 +1,56 @@
+body{
+    font-family: 'Arial', sans-serif;
+    min-height: 600px;
+}
+
+.cuerpoContenido{
+    background-color: rgb(245, 236, 169);
+}
+
+.botonConfirmacion{
+    background-color: rgb(102, 210, 102);
+    height: 30px;
+    color: white;
+    font-size: medium;
+    font-weight: bold;
+    border-radius: 10px;
+    border: white solid 2px;
+    min-width: 100px;
+    cursor: pointer;
+}
+.botonPrimario{
+    background-color: rgb(63, 93, 185);
+    height: 30px;
+    color: white;
+    font-size: medium;
+    font-weight: bold;
+    border-radius: 10px;
+    border: white solid 2px;
+    min-width: 100px;
+    cursor: pointer;
+}
+
+.botonPeligro{
+    background-color: rgb(185, 63, 63);
+    height: 30px;
+    color: white;
+    font-size: medium;
+    font-weight: bold;
+    border-radius: 10px;
+    border: white solid 2px;
+    min-width: 100px;
+    cursor: pointer;
+}
+
+
+.botonAdvertencia{
+    background-color: rgb(232, 247, 13);
+    height: 30px;
+    color: black;
+    font-size: medium;
+    font-weight: bold;
+    border-radius: 10px;
+    border: white solid 2px;
+    min-width: 100px;
+    cursor: pointer;
+}

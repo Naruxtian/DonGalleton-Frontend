@@ -1,0 +1,39 @@
+.LoginDiv {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 10px;
+    justify-content: center;
+    display: flex;
+}
+
+
+.LoginDiv img {
+    width: 100%;
+    
+}
+
+.divImagenLogin{
+    width: 50%;
+    border-right: rgb(0, 0, 0) solid 2px;
+    padding-right: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.formularioLogin{
+    width: 60%;
+    padding-left: 20px;
+}
+
+.recordarme{
+    display: flex;
+}
+
+.InputsLogin{
+    border-radius: 10px;
+    height: 20px;
+}
+
+.recordarme input{
+    margin-right: 10px;
+}

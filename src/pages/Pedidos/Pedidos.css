@@ -1,0 +1,13 @@
+.pedidos {
+    text-align: center;
+}
+.pedidos table {
+    width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .tablaPedidos {
+        width: 100%;
+        overflow-x: auto;
+    }
+}

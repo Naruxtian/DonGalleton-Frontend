@@ -1,0 +1,6 @@
+@media screen and (max-width: 768px) {
+    .tablaVentas {
+        width: 100%;
+        overflow-x: auto;
+    }
+}

@@ -1,0 +1,14 @@
+.MensajePaginaNoEncontrada{
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+}
+
+.MensajePaginaNoEncontrada img{
+    width: 200px;
+    border-radius: 10px;
+}
+
+.divMensaje{
+    margin-left: 20px;
+}

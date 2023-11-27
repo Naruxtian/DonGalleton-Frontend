@@ -1,0 +1,27 @@
+.formularioRegistro{
+    display: flex;
+}
+
+.infoUsuario{
+    width: 40%;
+}
+
+.infoContacto{
+ width: 40%;
+}
+
+
+@media screen and (max-width: 768px) {
+    .formularioRegistro{
+        display: block;
+    }
+    
+    .infoUsuario{
+        width: 40%;
+        margin-bottom: 20px;
+    }
+    
+    .infoContacto{
+     width: 40%;
+    }
+}

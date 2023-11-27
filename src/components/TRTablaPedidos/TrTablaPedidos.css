@@ -1,0 +1,14 @@
+.estatusPedido.Cancelado{
+    background-color: red;
+    color:white;
+}
+
+.estatusPedido.Pendiente{
+    background-color: yellow;
+    color:black;
+}
+
+.estatusPedido.Entregado{
+    background-color: green;
+    color:white;
+}

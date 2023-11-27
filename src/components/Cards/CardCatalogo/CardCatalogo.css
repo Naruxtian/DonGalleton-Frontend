@@ -1,0 +1,35 @@
+.CardCatalogo{
+    border: black solid 2px;
+    border-radius: 10px;
+    width: 200px;
+    padding: 10px;
+    text-align: center;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.CardCatalogo img{
+    width: 100%;
+}
+.CardCatalogo input{
+    border-radius: 10px;
+    width: 40%;
+}
+
+.CardHover :hover{
+    background-color: rgba(200, 200, 200, 0.2);
+}
+
+@media screen and (max-width: 768px) {
+    .CardCatalogo{
+        border: black solid 2px;
+        border-radius: 10px;
+        width: 200px;
+        padding: 10px;
+        text-align: center;
+        margin-left: 10px;
+        margin-bottom: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
