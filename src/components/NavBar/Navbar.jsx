@@ -35,7 +35,7 @@ const Navbar = () => {
             <a href="/proveedores">Proveedores</a>
             <a href="/provisiones">Provisiones</a>
             <a href="/envios">Envios</a>
-            <a href="/ventas">Estadisticas</a>
+            <a href="/estadisticas">Estadisticas</a>
 
             <a href="/ventas">Panes</a>
             <a href="/ventas">Cocina</a>

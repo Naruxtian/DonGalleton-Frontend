@@ -14,6 +14,7 @@ import Provisiones from "./pages/Provisiones/Provisiones";
 import Envios from "./pages/Envios/Envios";
 import Usuarios from "./pages/Usuarios/Usuarios";
 import MateriaPrima from "./pages/MateriaPrima/MateriaPrima";
+import Estadisticas from "./pages/Estadisticas/Estadisticas";
 
 const App = () => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
 
             <Route path="/envios" element={<Envios />} />
 
+            <Route path="/estadisticas" element={<Estadisticas />} />
             <Route path="/materia_prima" element={<MateriaPrima />} />
             <Route path="/usuarios" element={<Usuarios />} />
             <Route path="*" element={<NotFound />} />
