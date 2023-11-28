@@ -1,0 +1,14 @@
+.usuarios{
+    padding: 10px;
+    text-align: center;
+}
+.usuarios table{
+width: 100%;
+}
+
+.tablaUsuarios{
+    width: 100%;
+    overflow-x: auto;
+    height: 250px;
+    overflow-y: auto;
+}

@@ -1,0 +1,30 @@
+.provisiones{
+padding: 10px;
+text-align: center;
+}
+
+.provisiones table{
+    width: 100%;
+}
+
+.tablaPendientes{
+    width: 100%;
+    
+    overflow-x: auto;
+}
+
+.tablaHistorial{
+    width: 100%;
+    
+    overflow-x: auto;
+}
+
+.tablaPendientes{
+    height: 250px;
+    overflow-y: auto;
+}
+
+.tablaHistorial{
+    height: 250px;
+    overflow-y: auto;
+}

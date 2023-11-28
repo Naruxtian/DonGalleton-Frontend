@@ -20,7 +20,7 @@ body{
 }
 .botonPrimario{
     background-color: rgb(63, 93, 185);
-    height: 30px;
+    height: auto30px;
     color: white;
     font-size: medium;
     font-weight: bold;

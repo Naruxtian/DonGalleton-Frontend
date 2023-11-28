@@ -10,6 +10,10 @@ import Carrito from "./pages/Carrito/Carrito";
 import Pedidos from "./pages/Pedidos/Pedidos";
 import Ventas from "./pages/Ventas/Ventas";
 import Proveedores from "./pages/Proveedores/Proveedores";
+import Provisiones from "./pages/Provisiones/Provisiones";
+import Envios from "./pages/Envios/Envios";
+import Usuarios from "./pages/Usuarios/Usuarios";
+import MateriaPrima from "./pages/MateriaPrima/MateriaPrima";
 
 const App = () => {
   return (
@@ -32,6 +36,12 @@ const App = () => {
             <Route path="/pedidos" element={<Pedidos />} />
             <Route path="/ventas" element={<Ventas />} />
             <Route path="/proveedores" element={<Proveedores />} />
+            <Route path="/provisiones" element={<Provisiones />} />
+
+            <Route path="/envios" element={<Envios />} />
+
+            <Route path="/materia_prima" element={<MateriaPrima />} />
+            <Route path="/usuarios" element={<Usuarios />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

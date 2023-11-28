@@ -1,0 +1,27 @@
+.envios{
+        padding: 10px;
+        text-align: center;
+}
+.envios table{
+    width: 100%;
+}
+.enviosPendientes{
+    width: 100%;
+    overflow-x: auto;
+    height: 250px;
+    overflow-y: auto;
+}
+
+.enviosEntregados{
+    width: 100%;
+    overflow-x: auto;
+    height: 250px;
+    overflow-y: auto;
+}
+
+.pedidosCancelados{
+    width: 100%;
+    overflow-x: auto;
+    height: 250px;
+    overflow-y: auto;
+}

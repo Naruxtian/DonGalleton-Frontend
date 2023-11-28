@@ -33,15 +33,15 @@ const Navbar = () => {
 
             <a href="/ventas">Ventas</a>
             <a href="/proveedores">Proveedores</a>
-            <a href="/ventas">Provisiones</a>
-            <a href="/ventas">Envios</a>
+            <a href="/provisiones">Provisiones</a>
+            <a href="/envios">Envios</a>
             <a href="/ventas">Estadisticas</a>
 
             <a href="/ventas">Panes</a>
             <a href="/ventas">Cocina</a>
-            <a href="/ventas">Materia prima</a>
+            <a href="/materia_prima">Materia prima</a>
 
-            <a href="/ventas">Usuarios</a>
+            <a href="/usuarios">Usuarios</a>
           </nav>
         </div>
       </div>
