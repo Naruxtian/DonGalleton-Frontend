@@ -1,0 +1,44 @@
+.ingredientes{
+    padding: 10px;
+    text-align: center;
+}
+
+.tablasIngredientes{
+    display: flex;
+}
+
+.ingredientes select{
+ width: 50%;
+ border-radius: 10px;
+ height: 30px;
+}
+
+@media screen and (max-width: 768px) {
+    .tablasIngredientes {
+        display: block;
+    }
+
+    .tablaIngredientesPAn{
+        margin-top: 20px;
+    }
+}
+
+
+.ingredientes table{
+    width: 90%;
+}
+    
+    .tablaIngredientesPAn{
+        width: 100%;
+        overflow-x: auto;
+        height: 250px;
+        overflow-y: auto;
+    }
+
+    .tablaMateriasIngredientes{
+        width: 100%;
+        overflow-x: auto;
+        height: 250px;
+        overflow-y: auto;
+        
+    }

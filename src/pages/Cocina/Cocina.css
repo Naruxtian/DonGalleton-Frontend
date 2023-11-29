@@ -1,0 +1,62 @@
+.cocina{
+    padding: 10px;
+    text-align: center;
+}
+
+.todasGalletas{
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.panSeleccionado{
+    padding: 10px;
+    text-align: center;
+}
+
+.contenidoPanSel{
+    display: inline-flex;
+}
+
+.panSeleccionado img{
+    width: 100%;
+}
+.panSeleccionado select{
+    width: 90%;
+    border-radius: 10px;
+}
+
+.panSeleccionado input{
+    border-radius: 10px;
+}
+.panSeleccionado textarea{
+    width: 90%;
+    max-width: 90%;
+    min-width: 90%;
+    border-radius: 10px;
+}
+
+.imagenPanSeleccionado{
+    width: 50%;
+}
+
+.infoPanSeleccionado{
+    width: 50%;
+    padding: 10px;
+}
+
+.pedidos h4{
+    color:black
+}
+
+
+.pedidos table{
+    width: 100%;
+    }
+    
+    .tablaUsuarios{
+        width: 100%;
+        overflow-x: auto;
+        height: 250px;
+        overflow-y: auto;
+    }

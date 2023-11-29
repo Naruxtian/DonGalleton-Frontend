@@ -15,6 +15,11 @@ import Envios from "./pages/Envios/Envios";
 import Usuarios from "./pages/Usuarios/Usuarios";
 import MateriaPrima from "./pages/MateriaPrima/MateriaPrima";
 import Estadisticas from "./pages/Estadisticas/Estadisticas";
+import Cocina from "./pages/Cocina/Cocina";
+import PanElejido from "./pages/Cocina/PanElejido";
+import Ordenes from "./pages/Cocina/Ordenes";
+import Panes from "./pages/Panes/Panes";
+import Ingredientes from "./pages/Panes/Ingredientes";
 
 const App = () => {
   return (
@@ -40,6 +45,13 @@ const App = () => {
             <Route path="/provisiones" element={<Provisiones />} />
 
             <Route path="/envios" element={<Envios />} />
+
+            <Route path="/cocina" element={<Cocina />} />
+            <Route path="/pan-seleccionado" element={<PanElejido />} />
+            <Route path="/ordenes" element={<Ordenes />} />
+
+            <Route path="/panes" element={<Panes />} />
+            <Route path="/ingredientes" element={<Ingredientes />} />
 
             <Route path="/estadisticas" element={<Estadisticas />} />
             <Route path="/materia_prima" element={<MateriaPrima />} />

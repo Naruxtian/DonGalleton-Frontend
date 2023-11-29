@@ -1,0 +1,28 @@
+import React from "react";
+
+const TrOrdenes = ({ pan, lote, panesTotal, fecha, estatus }) => {
+  return (
+    <tr>
+      <td>{pan}</td>
+      <td>{lote}</td>
+      <td>{panesTotal} Pzs</td>
+      <td>{fecha}</td>
+      <td
+        className={
+          estatus == "Cancelado"
+            ? "estatusPedido Cancelado"
+            : estatus == "Pendiente"
+            ? "estatusPedido Pendiente"
+            : "estatusPedido Entregado"
+        }
+      >
+        {estatus}
+      </td>
+      <td>
+        <button className="botonAdvertencia">Procesar</button>
+        <button className="botonPeligro">Cancelar</button>
+      </td>
+    </tr>
+  );
+};
+export default TrOrdenes;
