@@ -97,8 +97,6 @@ const Proveedores = () => {
 
   const handleAgregarPedido = async () => {
     
-
-
     if (!formularioPedido.materiaPrima || isNaN(formularioPedido.cantidad) || isNaN(formularioPedido.costoTotal)) {
       swal("Error", "Todos los campos del pedido son obligatorios", "error");
       return;
