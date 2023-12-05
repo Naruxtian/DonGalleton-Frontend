@@ -11,12 +11,13 @@ const TrTablasProveedores = ({
   correo,
   activarFormulario,
   activarAgregar,
-  handleEliminarProveedor
+  handleEliminarProveedor,
+  handleMostrarPedido
 }) => {
   return (
     <tr>
       <td>
-        <button className="botonPrimario" onClick={() => activarAgregar()}>
+        <button className="botonPrimario" onClick={handleMostrarPedido}>
           +
         </button>
       </td>

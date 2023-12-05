@@ -5,6 +5,7 @@ import swal from "sweetalert";
 
 const Proveedores = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [mostrarFormularioPedido, setMostrarFormularioPedido] = useState(false);
   const [modoEdicion, setModoEdicion] = useState(false);
   const [modoAgregar, setModoAgregar] = useState(false);
 
@@ -35,8 +36,9 @@ const Proveedores = () => {
   };
 
   const cancelar = () => {
-    setMostrarFormulario(!mostrarFormulario);
+    setMostrarFormulario(false);
     setIdProveedorPedido(null);
+    setMostrarFormularioPedido(false);
   };
 
   const [formularioEdicion, setFormularioEdicion] = useState({
@@ -57,6 +59,8 @@ const Proveedores = () => {
   });
 
   const cargarDatosEdicion = (proveedor) => {
+    const costo = proveedor.producto.costo || 0;
+    const cantidad = proveedor.producto.cantidad || 0;
     setFormularioEdicion({
       nombre: proveedor.nombre,
       telefono: proveedor.telefono,
@@ -68,11 +72,27 @@ const Proveedores = () => {
       cantidad: proveedor.producto.cantidad,
     });
 
+    const costoTotal = calcularCostoTotal(costo, cantidad);
+
+    setFormularioPedido({
+      materiaPrima: proveedor.producto.producto || "0",
+      cantidad: cantidad,
+      costoTotal: costoTotal,
+    });
+
     setIdProveedorModificar(proveedor.id);
     setModoEdicion(true);
     setModoAgregar(false);
     setMostrarFormulario(true);
     setActualizando(true);
+  };
+
+  const calcularCostoTotal = (costo, cantidad) => {
+    return costo * cantidad;
+  };
+
+  const handleMostrarPedido = (proveedor) => {
+    setMostrarFormularioPedido(true);
   };
 
   const handleAgregarPedido = async () => {
@@ -302,6 +322,7 @@ const handleEliminarProveedor = async (idProveedor) => {
                     activarFormulario={() => { cargarDatosEdicion(proveedor); console.log(proveedor); }}
                     activarAgregar={() => activarAgregar(true)}
                     handleEliminarProveedor={() => handleEliminarProveedor(proveedor.id)}
+                    handleMostrarPedido={() => handleMostrarPedido(proveedor)}
                   />
                 ))
                 }
@@ -356,6 +377,26 @@ const handleEliminarProveedor = async (idProveedor) => {
               Agregar
             </button>
 
+            <button className="botonPeligro" onClick={cancelar}>
+              Cancelar
+            </button>
+          </div>
+
+          <div className="formularioProveedores" hidden={!mostrarFormularioPedido}>
+            <h1>Pedir Provision</h1>
+            <br />
+            <input type="text" name="producto" id="producto" placeholder="Producto escogido" style={{backgroundColor: "lightblue"}} value={formularioPedido.producto} readOnly ={true}/>
+            <br />
+            <br />
+            <input type="number" name="cantidad" id="cantidad" placeholder="Cantidad del producto" value={formularioPedido.cantidad} onChange={(e) => setFormularioPedido({...formularioPedido, cantidad: e.target.value,})} />
+            <br />
+            <br />
+            <input type="number" name="costo" id="costo" placeholder="Costo del producto" style={{backgroundColor: "lightblue"}} value={formularioPedido.costoTotal} onChange={(e) => setFormularioPedido({...formularioPedido, costoTotal: e.target.value,})}  readOnly={true}/>
+            <br />
+            <br />
+            <button className="botonConfirmacion">
+              Pedir
+            </button>
             <button className="botonPeligro" onClick={cancelar}>
               Cancelar
             </button>
