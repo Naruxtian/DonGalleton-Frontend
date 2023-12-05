@@ -22,7 +22,7 @@ const Estadisticas = () => {
           </thead>
           <tbody>
             <TrEstadisticas
-              producto={"galleta de nuez"}
+              producto={"galleta de vainilla"}
               lotes={"12"}
               total={"ejemplo"}
               vendidos={"ejemplo"}

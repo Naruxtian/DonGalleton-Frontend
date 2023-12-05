@@ -1,13 +1,13 @@
 import React from "react";
 
-const TrEnviosPendiente = ({
+const TrEnviosEnviados = ({
   cliente,
   telefono,
   direccion,
   producto,
   fecha,
   total,
-  estatus = "Pendiente",
+  estatus = "Enviado",
 }) => {
   return (
     <tr>
@@ -33,11 +33,10 @@ const TrEnviosPendiente = ({
         {estatus}
       </td>
       <td>
-        <button className="botonAdvertencia">Procesar</button>
-        <button className="botonPeligro">Cancelar</button>
+        <button className="botonAdvertencia">Entregar</button>
       </td>
     </tr>
   );
 };
 
-export default TrEnviosPendiente;
+export default TrEnviosEnviados;

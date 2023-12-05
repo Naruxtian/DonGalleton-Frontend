@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState } from "react";
 import Inicio from "./pages/inicio";
 import Navbar from "./components/NavBar/Navbar";
 import Login from "./pages/Login/Login";
@@ -18,10 +19,12 @@ import Estadisticas from "./pages/Estadisticas/Estadisticas";
 import Cocina from "./pages/Cocina/Cocina";
 import PanElejido from "./pages/Cocina/PanElejido";
 import Ordenes from "./pages/Cocina/Ordenes";
-import Panes from "./pages/Panes/Panes";
+import Galletas from "./pages/Panes/Panes";
 import Ingredientes from "./pages/Panes/Ingredientes";
 
 const App = () => {
+  const [user, setUser] = useState(null);
+  
   return (
     <div>
       <header>
@@ -50,7 +53,7 @@ const App = () => {
             <Route path="/pan-seleccionado" element={<PanElejido />} />
             <Route path="/ordenes" element={<Ordenes />} />
 
-            <Route path="/panes" element={<Panes />} />
+            <Route path="/galletas" element={<Galletas />} />
             <Route path="/ingredientes" element={<Ingredientes />} />
 
             <Route path="/estadisticas" element={<Estadisticas />} />

@@ -20,25 +20,25 @@ const Carrito = () => {
           </thead>
           <tbody>
             <TrTablaCarrito
-              nombre={"galleta de nuez"}
+              nombre={"galleta de chocolate"}
               cantidad={"12"}
               precio={"100"}
               total={"1200"}
             />
             <TrTablaCarrito
-              nombre={"galleta de nuez"}
+              nombre={"galleta de vainilla"}
               cantidad={"12"}
               precio={"100"}
               total={"1200"}
             />
             <TrTablaCarrito
-              nombre={"galleta de nuez"}
+              nombre={"galleta de naranja"}
               cantidad={"12"}
               precio={"100"}
               total={"1200"}
             />
             <TrTablaCarrito
-              nombre={"galleta de nuez"}
+              nombre={"galleta de mantequilla"}
               cantidad={"12"}
               precio={"100"}
               total={"1200"}

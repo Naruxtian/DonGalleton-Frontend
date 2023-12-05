@@ -1,6 +1,7 @@
 import React from "react";
 
 const TrTablasProveedores = ({
+  id,
   nombre,
   telefono,
   empresa,
@@ -10,6 +11,7 @@ const TrTablasProveedores = ({
   correo,
   activarFormulario,
   activarAgregar,
+  handleEliminarProveedor
 }) => {
   return (
     <tr>
@@ -30,11 +32,11 @@ const TrTablasProveedores = ({
       <td>
         <button
           className="botonAdvertencia"
-          onClick={() => activarFormulario()}
+          onClick={() => activarFormulario(id)}
         >
           edit
         </button>
-        <button className="botonPeligro">Eliminar</button>
+        <button className="botonPeligro" onClick={handleEliminarProveedor}>Eliminar</button>
       </td>
     </tr>
   );

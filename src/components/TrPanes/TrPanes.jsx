@@ -1,12 +1,15 @@
 import React from "react";
 
 const TrPanes = ({
+  id,
   nombre,
   inventario,
   precio,
   descripcion,
   img,
   activarFormulario,
+  handleEliminarGalleta,
+  handleMostrarIngredientes
 }) => {
   return (
     <tr>
@@ -18,17 +21,17 @@ const TrPanes = ({
         <img src={img} alt="" />
       </td>
       <td>
-        <button className="botonConfirmacion">Ingredientes</button>
+        <button className="botonConfirmacion" onClick={handleMostrarIngredientes}>Ingredientes</button>
       </td>
       <td>
-        <button className="botonPeligro">delete</button>
+        <button className="botonPeligro" onClick={handleEliminarGalleta}>delete</button>
         <br />
         <br />
         <button
           className="botonAdvertencia"
-          onClick={() => activarFormulario(true)}
+          onClick={() => activarFormulario(id)}
         >
-          edit
+          Editar
         </button>
       </td>
     </tr>

@@ -12,6 +12,20 @@
     overflow-y: auto;
 }
 
+.enviosProcesando{
+    width: 100%;
+    overflow-x: auto;
+    height: 250px;
+    overflow-y: auto;
+}
+
+.enviosEnviados{
+    width: 100%;
+    overflow-x: auto;
+    height: 250px;
+    overflow-y: auto;
+}
+
 .enviosEntregados{
     width: 100%;
     overflow-x: auto;

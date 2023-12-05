@@ -1,16 +1,12 @@
 import React from "react";
 
-const TrListaMaterias = ({ nombre }) => {
+const TrListaMaterias = ({ nombre, id, handleAgregarIngredientes  }) => {
   return (
     <tr>
       <td>{nombre}</td>
       <td>
-        <select name="" id="">
-          <option value="">Harina</option>
-          <option value="">Leche</option>
-          <option value="">Nuez</option>
-        </select>
-        <button className="botonConfirmacion">Agregar</button>
+        <input type="number" name="cantidadIngrediente" id="cantidadIngrediente" placeholder="Cantidad del ingrediente" />
+        <button className="botonConfirmacion" onClick={() => handleAgregarIngredientes({ id, nombre })}>Agregar</button>
       </td>
     </tr>
   );

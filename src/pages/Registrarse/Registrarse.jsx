@@ -1,6 +1,59 @@
+import React, { useState, useEffect } from "react";
 import "./Registrarse.css";
+import swal from "sweetalert";
 
 const Registrarse = () => {
+  const [user, setUser] = useState(null);
+
+  const handleRegistrarUsuario = async () => {
+    const email = document.getElementById("correo").value;
+    const password = document.getElementById("contrasena").value;
+    const name = document.getElementById("nombre").value;
+    const cellphone = document.getElementById("telefono").value;
+    const address = document.getElementById("direccion").value;
+
+
+    if (!name || !email || !password || !cellphone || !address ) {
+      swal("Error", "Todos los campos son obligatorios", "error");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          name,
+          rol: "Cliente",
+          cellphone,
+          address,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Usuario registrado", data);
+        const updatedUsuario = [...user, data.data];
+        setUser(updatedUsuario);
+        swal("Registro exitoso", "", "success");
+        document.getElementById("correo").value = "";
+        document.getElementById("contrasena").value = "";
+        document.getElementById("nombre").value = "";
+        document.getElementById("telefono").value = "";
+        document.getElementById("direccion").value = "";
+      } else {
+        console.error("Error al registrar el usuario", data);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud del registro del usuario", error);
+    }
+  };
+
   return (
     <div className="LoginDiv">
       <div className="divImagenLogin">
@@ -17,8 +70,8 @@ const Registrarse = () => {
               <input
                 className="InputsLogin"
                 type="text"
-                name=""
-                id=""
+                name="nombre"
+                id="nombre"
                 placeholder="Ecribe tu Nombre"
               />
               <br />
@@ -26,17 +79,17 @@ const Registrarse = () => {
               <input
                 className="InputsLogin"
                 type="text"
-                name=""
-                id=""
+                name="correo"
+                id="correo"
                 placeholder="Ecribe tu Correo"
               />
               <br />
               <br />
               <input
                 className="InputsLogin"
-                type="text"
-                name=""
-                id=""
+                type="password"
+                name="contrasena"
+                id="contrasena"
                 placeholder="Ecribe tu contraseña"
               />
             </div>
@@ -44,20 +97,18 @@ const Registrarse = () => {
             <div className="infoContacto">
               <input
                 className="InputsLogin"
-                type="number"
-                name=""
-                id=""
+                type="text"
+                name="telefono"
+                id="telefono"
                 placeholder="Ecribe tu Telefono"
               />
               <br />
               <br />
-              <input
-                className="InputsLogin"
-                type="text"
-                name=""
-                id=""
-                placeholder="Ecribe tu Direccion"
-              />
+              <textarea
+               name="direccion"
+               id="direccion" 
+               placeholder="Escribe tu direccion"
+               />
             </div>
           </div>
 
@@ -65,7 +116,7 @@ const Registrarse = () => {
           <br />
 
           <br />
-          <button className="botonConfirmacion">Registrarse</button>
+          <button className="botonConfirmacion" onClick={handleRegistrarUsuario}>Registrarse</button>
         </div>
       </div>
     </div>

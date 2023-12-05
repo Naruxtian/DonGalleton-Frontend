@@ -1,8 +1,10 @@
 import React from "react";
 import "./Pedidos.css";
 import TrTablaPedidos from "../../components/TRTablaPedidos/TrTablaPedidos";
+import swal from "sweetalert";
 
 const Pedidos = () => {
+  
   return (
     <div className="pedidos">
       <h2>Mis pedidos</h2>
@@ -20,21 +22,21 @@ const Pedidos = () => {
           </thead>
           <tbody>
             <TrTablaPedidos
-              nombre={"galleta de nuez"}
+              nombre={"galleta de chocolate"}
               total={"12"}
               direccion={"Calle de ejemplo colonia de ejemplo"}
               fecha={"12/12/2000"}
               estatus={"Pendiente"}
             />
             <TrTablaPedidos
-              nombre={"galleta de nuez"}
+              nombre={"galleta de vainilla"}
               total={"12"}
               direccion={"Calle de ejemplo colonia de ejemplo"}
               fecha={"12/12/2000"}
               estatus={"Entregado"}
             />
             <TrTablaPedidos
-              nombre={"galleta de nuez"}
+              nombre={"galleta de naranja"}
               total={"12"}
               direccion={"Calle de ejemplo colonia de ejemplo"}
               fecha={"12/12/2000"}

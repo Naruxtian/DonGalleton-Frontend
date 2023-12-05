@@ -20,17 +20,17 @@ const Ventas = () => {
           </thead>
           <tbody>
             <TrTablaVentas
-              nombre={"galleta de nuez"}
+              nombre={"galleta de chocolate"}
               total={"12"}
               fecha={"12/12/2000"}
             />
             <TrTablaVentas
-              nombre={"galleta de nuez"}
+              nombre={"galleta de vainilla"}
               total={"12"}
               fecha={"12/12/2000"}
             />
             <TrTablaVentas
-              nombre={"galleta de nuez"}
+              nombre={"galleta de mantequilla"}
               total={"12"}
               fecha={"12/12/2000"}
             />

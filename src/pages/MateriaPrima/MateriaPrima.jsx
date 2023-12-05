@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./MateriaPrima.css";
 import TrMaterias from "../../components/TrMaterias/TrMaterias";
+import swal from "sweetalert";
 
 const MateriaPrima = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [materiasPrimas, setMateriasPrimas] = useState([]);
 
   const activarFormulario = () => {
     setMostrarFormulario(!mostrarFormulario);
@@ -12,6 +14,98 @@ const MateriaPrima = () => {
   const cancelar = () => {
     setMostrarFormulario(!mostrarFormulario);
   };
+
+  const handleAgregar = async () => {
+    const nombre = document.getElementById("nombre").value;
+    const inventario = document.getElementById("inventario").value;
+    const unidad = document.getElementById("unidad").value;
+
+    if (!nombre || !inventario || !unidad) {
+      swal("Error", "Todos los campos son obligatorios", "error");
+      return;
+    }
+  
+    try {
+      const response = await fetch("http://localhost:3000/api/materiaPrima/insert", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nombre, inventario, unidad }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log("Materia prima creada correctamente", data);
+        const updatedMateriasPrimas = [...materiasPrimas, data.data];
+        setMateriasPrimas(updatedMateriasPrimas);
+        setMostrarFormulario(false);
+        swal("Materia prima agregada correctamente", "", "success");
+      } else {
+        console.error("Error al crear la materia prima", data);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud de agregar materia prima", error);
+    }
+  };
+  
+  const handleEliminar = async (nombre, cantidadARestar) => {
+    const confirmacion = window.confirm("¿Estás seguro de restar inventario a esta materia prima?");
+    if (!confirmacion) {
+      return;
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:3000/api/materiaPrima/restar/${nombre}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cantidadARestar }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log("Inventario restado correctamente", data);
+        const updatedMateriasPrimas = materiasPrimas.map((materiaPrima) => {
+          if (materiaPrima.nombre === nombre) {
+            return { ...materiaPrima, inventario: materiaPrima.inventario - 1 };
+          }
+          return materiaPrima;
+        });
+  
+        setMateriasPrimas(updatedMateriasPrimas);
+        swal("Inventario restado correctamente", "", "success");
+      } else {
+        console.error("Error al restar inventario", data);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud de restar inventario", error);
+    }
+  };
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/materiaPrima/getAll");
+        const data = await response.json();
+
+        if (response.ok) {
+          const materiasPrimasArray = Object.values(data.data);
+          setMateriasPrimas(materiasPrimasArray);
+        } else {
+          console.error("Error al obtener las materias primas", data);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de obtener materias primas", error);
+      }
+    };
+
+    fetchData();
+  }, []); 
 
   return (
     <div className="MateriaPrima">
@@ -42,11 +136,15 @@ const MateriaPrima = () => {
                 </tr>
               </thead>
               <tbody>
+              {Array.isArray(materiasPrimas) && materiasPrimas.map((materiaPrima) => (
                 <TrMaterias
-                  producto={"Leche entera"}
-                  inventario={"30"}
-                  unidad={"KG"}
+                  key={materiaPrima.id}
+                  producto={materiaPrima.nombre}
+                  inventario={materiaPrima.inventario}
+                  unidad={materiaPrima.unidad}
+                  handleRestarInventario={handleEliminar}
                 />
+              ))}
               </tbody>
             </table>
           </div>
@@ -54,16 +152,16 @@ const MateriaPrima = () => {
           <div className="formularioMaterias" hidden={!mostrarFormulario}>
             <h1>Nueva materia prima</h1>
             <br />
-            <input type="text" name="" id="" />
+            <input type="text" name="nombre" id="nombre" placeholder="Nombre de la materia prima" />
             <br />
             <br />
-            <input type="text" name="" id="" />
+            <input type="text" name="inventario" id="inventario" placeholder="Inventario de la materia prima" />
             <br />
             <br />
-            <input type="text" name="" id="" />
+            <input type="text" name="unidad" id="unidad" placeholder="Unidad de la materia prima" />
             <br />
             <br />
-            <button className="botonConfirmacion">Agregar</button>
+            <button className="botonConfirmacion" onClick={handleAgregar}>Agregar</button>
             <button className="botonPeligro" onClick={cancelar}>
               Cancelar
             </button>
