@@ -4,7 +4,7 @@ body{
 }
 
 .cuerpoContenido{
-    background-color: rgb(245, 236, 169);
+    background-color: rgb(238, 238, 230);
 }
 
 .botonConfirmacion{
@@ -53,4 +53,19 @@ body{
     border: white solid 2px;
     min-width: 100px;
     cursor: pointer;
+}
+
+
+table{
+    border: 1px solid black;
+}
+
+table thead {
+    background-color: black;
+    color: white;
+}
+
+table tbody {
+    background-color: white;
+    color: black;
 }

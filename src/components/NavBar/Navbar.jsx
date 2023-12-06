@@ -12,10 +12,10 @@ const Navbar = () => {
       <div className="logoTipo">
         <div className="imagenTitulo">
           <img
-            src="https://th.bing.com/th/id/OIP.O4JBoGZZeG_sCWvGxLIp0QHaGk?rs=1&pid=ImgDetMain"
+            src="/src/assets/donGalleto.png"
             alt=""
           />
-          <h1>El Bollo Central</h1>
+          <h1>Don Galleto</h1>
         </div>
         <div className="burger-menu" onClick={toggleNav}>
           &#9776;

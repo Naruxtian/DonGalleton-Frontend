@@ -291,7 +291,7 @@ const handleEliminarProveedor = async (idProveedor) => {
         >
           <br />
           <div className="tablaProveedores">
-            <table border="1">
+            <table className="table-bordered" border="1">
               <thead>
                 <tr>
                   <th>Pedir</th>

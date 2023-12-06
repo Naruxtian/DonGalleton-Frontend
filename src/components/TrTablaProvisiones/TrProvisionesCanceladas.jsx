@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-const TrProvisionesHistorial = ({
+const TrProvisionesCanceladas = ({
   proveedor,
   empresa,
   telefono,
@@ -8,7 +8,7 @@ const TrProvisionesHistorial = ({
   cantidad,
   costo,
   fecha,
-  fechaRecepcion,
+  fechaCancelacion,
   estatus,
 }) => {
   const [fechaFormateada, setFechaFormateada] = useState("");
@@ -17,7 +17,7 @@ const TrProvisionesHistorial = ({
   useEffect(() => {
     // Convertir fecha de segundos a milisegundos
     const seconds = fecha.seconds;
-    const secondsRecepcion = fechaRecepcion.seconds;
+    const secondsRecepcion = fechaCancelacion.seconds;
     const fechaDate = new Date(seconds * 1000);
     const fechaRecepcionDate = new Date(secondsRecepcion * 1000);
 
@@ -29,7 +29,7 @@ const TrProvisionesHistorial = ({
     // Actualizar el estado con la fecha formateada
     setFechaFormateada(fechaFormateada);
     setFechaFormateadaR(fechaRecepcionFormateada);
-  }, [fecha, fechaRecepcion]);
+  }, [fecha, fechaCancelacion]);
 
   return (
     <tr>
@@ -57,4 +57,4 @@ const TrProvisionesHistorial = ({
   );
 };
 
-export default TrProvisionesHistorial;
+export default TrProvisionesCanceladas;

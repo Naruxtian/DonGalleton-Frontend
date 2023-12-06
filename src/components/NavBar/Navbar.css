@@ -1,5 +1,5 @@
 .barraNavegacion {
-    background-color: rgb(155, 90, 37);
+    background-color: rgb(26, 26, 26);
     border-radius: 20px;
 }
 
@@ -72,7 +72,7 @@
 
     .nav-links.show {
         display: flex;
-        background-color: rgb(155, 90, 37);
+        background-color: rgb(26, 26, 26);
         border-radius: 10px;
         align-items: end;
     }

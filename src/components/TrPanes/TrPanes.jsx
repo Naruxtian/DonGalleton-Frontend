@@ -14,8 +14,8 @@ const TrPanes = ({
   return (
     <tr>
       <td>{nombre}</td>
-      <td>{inventario}</td>
-      <td>{precio} Pzs</td>
+      <td>{inventario} Pzs</td>
+      <td>${precio}</td>
       <td>{descripcion}</td>
       <td>
         <img src={img} alt="" />

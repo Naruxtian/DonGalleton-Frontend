@@ -46,7 +46,7 @@ const Login = () => {
     <div className="LoginDiv">
       <div className="divImagenLogin">
         <img
-          src="https://th.bing.com/th/id/OIP.O4JBoGZZeG_sCWvGxLIp0QHaGk?rs=1&pid=ImgDetMain"
+          src="/src/assets/donGalleto.png"
           alt=""
         />
       </div>

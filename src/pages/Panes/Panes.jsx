@@ -290,7 +290,7 @@ const Galletas = () => {
                     inventario={galleta.inventario}
                     precio={galleta.precio}
                     descripcion={galleta.descripcion}
-                    img={galleta.img}
+                    img={galleta.imagen}
                     ingredientes={galleta.ingredientes}
                     receta={galleta.receta}
                     activarFormulario={() => {cargarDatosEdicion(galleta)}}
