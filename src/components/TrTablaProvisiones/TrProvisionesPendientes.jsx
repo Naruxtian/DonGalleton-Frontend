@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 const TrProvisionesPendientes = ({
   proveedor,
@@ -10,6 +10,21 @@ const TrProvisionesPendientes = ({
   fecha,
   estatus,
 }) => {
+  const [fechaFormateada, setFechaFormateada] = useState("");
+
+  useEffect(() => {
+    // Convertir fecha de segundos a milisegundos
+    const seconds = fecha.seconds;
+    const fechaDate = new Date(seconds * 1000);
+
+    // Formatear la fecha como desees
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const fechaFormateada = fechaDate.toLocaleDateString("es-MX", options);
+
+    // Actualizar el estado con la fecha formateada
+    setFechaFormateada(fechaFormateada);
+  }, [fecha]); 
+
   return (
     <tr>
       <td>{proveedor}</td>
@@ -18,7 +33,7 @@ const TrProvisionesPendientes = ({
       <td>{materia}</td>
       <td>{cantidad}</td>
       <td>{costo}</td>
-      <td>{fecha}</td>
+      <td>{fechaFormateada}</td>
       <td
         className={
           estatus == "Cancelado"

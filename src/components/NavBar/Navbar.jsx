@@ -38,10 +38,10 @@ const Navbar = () => {
             <a href="/estadisticas">Estadisticas</a>
 
             <a href="/galletas">Galletas</a>
-            <a href="/ingredientes">Panes/ ingredientes</a>
+            {/* <a href="/ingredientes">Panes/ ingredientes</a> */}
             <a href="/cocina">Cocina</a>
 
-            <a href="/pan-seleccionado">Cocina/ PanSeleccionao</a>
+            <a href="/pan-seleccionado">Cocina/ GalletaSeleccionao</a>
             <a href="/ordenes">Cocina/ ordenesDeCocina</a>
             <a href="/materia_prima">Materia prima</a>
 

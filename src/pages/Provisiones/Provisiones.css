@@ -28,3 +28,17 @@ text-align: center;
     height: 250px;
     overflow-y: auto;
 }
+
+table{
+    border: 1px solid black;
+}
+
+table thead {
+    background-color: black;
+    color: white;
+}
+
+table tbody {
+    background-color: white;
+    color: black;
+}

@@ -53,7 +53,7 @@ const Proveedores = () => {
   });
 
   const [formularioPedido, setFormularioPedido] = useState({
-    materiaPrima: "0",
+    producto: "0",
     cantidad: "",
     costoTotal: "",
   });
@@ -75,6 +75,7 @@ const Proveedores = () => {
     const costoTotal = calcularCostoTotal(costo, cantidad);
 
     setFormularioPedido({
+      proveedor: proveedor.id,
       materiaPrima: proveedor.producto.producto || "0",
       cantidad: cantidad,
       costoTotal: costoTotal,
@@ -97,17 +98,16 @@ const Proveedores = () => {
 
   const handleAgregarPedido = async () => {
     
-    if (!formularioPedido.materiaPrima || isNaN(formularioPedido.cantidad) || isNaN(formularioPedido.costoTotal)) {
+    if (isNaN(formularioPedido.cantidad)) {
       swal("Error", "Todos los campos del pedido son obligatorios", "error");
       return;
     }
 
     const requestBody = {
-      proveedor: idProveedorPedido,
+      proveedor: formularioPedido.proveedor,
       materiaPrima: formularioPedido.materiaPrima,
       cantidad: formularioPedido.cantidad,
       costoTotal: formularioPedido.costoTotal,
-      fechaPedido: new Date(),
       estatus: 1,
     };
 
@@ -149,9 +149,8 @@ const Proveedores = () => {
     const email = document.getElementById("email").value;
     const producto = document.getElementById("producto").value;
     const costo = document.getElementById("costo").value;
-    const cantidad = document.getElementById("cantidad").value;
 
-    if (!nombre || !telefono || !empresa || !direccion || !email || !producto || isNaN(costo) || isNaN(cantidad)) {
+    if (!nombre || !telefono || !empresa || !direccion || !email || !producto || isNaN(costo) ) {
       swal("Error", "Todos los campos son obligatorios", "error");
       return;
     }
@@ -162,10 +161,9 @@ const Proveedores = () => {
       empresa,
       direccion,
       email,
-      producto: { producto, costo, cantidad },
+      producto: { producto, costo},
       estatus: 1,
       costo,
-      cantidad,
     };
 
     try {
@@ -199,6 +197,7 @@ const Proveedores = () => {
       setActualizando(false);
     } else {
       console.error("Error al crear/actualizar el proveedor", data);
+      swal("Error", "Error al crear/actualizar el proveedor", data);
     }
   } catch (error) {
     console.error("Error en la solicitud de crear/actualizar el proveedor", error);
@@ -365,9 +364,6 @@ const handleEliminarProveedor = async (idProveedor) => {
             <input type="number" name="costo" id="costo" placeholder="Costo del producto" value={formularioEdicion.costo} onChange={(e) => setFormularioEdicion({ ...formularioEdicion, costo: e.target.value })} />
             <br />
             <br />
-            <input type="number" name="cantidad" id="cantidad" placeholder="Cantidad del producto" value={formularioEdicion.cantidad} onChange={(e) => setFormularioEdicion({ ...formularioEdicion, cantidad: e.target.value })} />
-            <br />
-            <br />
             <button className="botonAdvertencia" hidden={!modoEdicion} onClick={handleAgregarProveedor}>
               Modificar
             </button>
@@ -383,8 +379,6 @@ const handleEliminarProveedor = async (idProveedor) => {
           <div className="formularioProveedores" hidden={!mostrarFormularioPedido}>
             <h1>Pedir Provision</h1>
             <br />
-            <input type="text" name="producto" id="producto" placeholder="Producto escogido" style={{backgroundColor: "lightblue"}} value={formularioPedido.producto} readOnly ={true}/>
-            <br />
             <br />
             <input type="number" name="cantidad" id="cantidad" placeholder="Cantidad del producto" value={formularioPedido.cantidad} onChange={(e) => setFormularioPedido({...formularioPedido, cantidad: e.target.value,})} />
             <br />
@@ -392,7 +386,7 @@ const handleEliminarProveedor = async (idProveedor) => {
             <input type="number" name="costo" id="costo" placeholder="Costo del producto" style={{backgroundColor: "lightblue"}} value={formularioPedido.costoTotal} onChange={(e) => setFormularioPedido({...formularioPedido, costoTotal: e.target.value,})}  readOnly={true}/>
             <br />
             <br />
-            <button className="botonConfirmacion">
+            <button className="botonConfirmacion" onClick={handleAgregarPedido}>
               Pedir
             </button>
             <button className="botonPeligro" onClick={cancelar}>
