@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import {Navigate} from "react-router-dom";
-import "./Login.css";
+import { Navigate } from "react-router-dom";
 
-const RedirectToProveedores = () => {
-  <Navigate to="/proveedores" />;
-  return null;
-};
+import "./Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -29,13 +25,22 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      const responseData = await response.json();
 
       if (response.ok) {
-        console.log("Usuario logueado correctamente", data);
-        return <RedirectToProveedores />;
+        console.log("Usuario logueado correctamente", responseData);
+
+        // Modifica estas líneas para almacenar en localStorage
+        localStorage.setItem("usuario", JSON.stringify(responseData.data.id));
+        localStorage.setItem(
+          "direccion",
+          JSON.stringify(responseData.data.direccion)
+        );
+
+        // Corrige el redireccionamiento
+        window.location.href = "/catalogo";
       } else {
-        console.error("Error al iniciar sesión", data);
+        console.error("Error al iniciar sesión", responseData);
       }
     } catch (error) {
       console.error("Error en la solicitud de inicio de sesión", error);
@@ -45,10 +50,7 @@ const Login = () => {
   return (
     <div className="LoginDiv">
       <div className="divImagenLogin">
-        <img
-          src="/src/assets/donGalleto.png"
-          alt=""
-        />
+        <img src="/src/assets/donGalleto.png" alt="" />
       </div>
       <div className="formularioLogin">
         <div className="formularioFormato">
@@ -59,7 +61,7 @@ const Login = () => {
             name="email"
             id="email"
             value={email}
-            placeholder="Ecribe tu correo"
+            placeholder="Escribe tu correo"
             onChange={handleEmailChange}
           />
           <br />
@@ -70,7 +72,7 @@ const Login = () => {
             type="password"
             name="password"
             id="password"
-            placeholder="Ecribe tu contraseña"
+            placeholder="Escribe tu contraseña"
             value={password}
             onChange={handlePasswordChange}
           />
@@ -78,7 +80,9 @@ const Login = () => {
           <br />
 
           <br />
-          <button className="botonPrimario" onClick={handleLogin}>Iniciar Sesion</button>
+          <button className="botonPrimario" onClick={handleLogin}>
+            Iniciar Sesión
+          </button>
         </div>
       </div>
     </div>

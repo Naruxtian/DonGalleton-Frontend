@@ -1,61 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CardCatalogo from "../../components/Cards/CardCatalogo/CardCatalogo";
 import "./Catalogo.css";
 
 const Catalogo = () => {
+  const [galletas, setGalletas] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseGalletas = await fetch(
+          "http://localhost:3000/api/galletas/getAll"
+        );
+        const dataGalletas = await responseGalletas.json();
+
+        if (responseGalletas.ok) {
+          const galletasArray = Object.values(dataGalletas.data);
+          setGalletas(galletasArray);
+        } else {
+          console.error("Error al obtener las galletas", data);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de obtener galletas", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="ModuloCatalogo">
       <h2>Catalogo</h2>
 
       <div className="CatalogoProductos">
-        <CardCatalogo
-          img={
-            "https://th.bing.com/th/id/OIP.O4JBoGZZeG_sCWvGxLIp0QHaGk?rs=1&pid=ImgDetMain"
-          }
-          nombre={"Galleta almendras"}
-          descripcion={"galleta de almendras"}
-          precio={100}
-        />
-        <CardCatalogo
-          img={
-            "https://th.bing.com/th/id/OIP.O4JBoGZZeG_sCWvGxLIp0QHaGk?rs=1&pid=ImgDetMain"
-          }
-          nombre={"Galleta almendras"}
-          descripcion={"galleta de almendras"}
-          precio={100}
-        />
-        <CardCatalogo
-          img={
-            "https://th.bing.com/th/id/OIP.O4JBoGZZeG_sCWvGxLIp0QHaGk?rs=1&pid=ImgDetMain"
-          }
-          nombre={"Galleta almendras"}
-          descripcion={"galleta de almendras"}
-          precio={100}
-        />
-        <CardCatalogo
-          img={
-            "https://th.bing.com/th/id/OIP.O4JBoGZZeG_sCWvGxLIp0QHaGk?rs=1&pid=ImgDetMain"
-          }
-          nombre={"Galleta almendras"}
-          descripcion={"galleta de almendras"}
-          precio={100}
-        />
-        <CardCatalogo
-          img={
-            "https://th.bing.com/th/id/OIP.O4JBoGZZeG_sCWvGxLIp0QHaGk?rs=1&pid=ImgDetMain"
-          }
-          nombre={"Galleta almendras"}
-          descripcion={"galleta de almendras"}
-          precio={100}
-        />
-        <CardCatalogo
-          img={
-            "https://th.bing.com/th/id/OIP.O4JBoGZZeG_sCWvGxLIp0QHaGk?rs=1&pid=ImgDetMain"
-          }
-          nombre={"Galleta almendras"}
-          descripcion={"galleta de almendras"}
-          precio={100}
-        />
+        {Array.isArray(galletas) &&
+          galletas.map((galleta) => (
+            <CardCatalogo
+              key={galleta.id}
+              id={galleta.id}
+              img={galleta.imagen}
+              nombre={galleta.nombre}
+              descripcion={galleta.descripcion}
+              precio={galleta.precio}
+            />
+          ))}
       </div>
     </div>
   );
