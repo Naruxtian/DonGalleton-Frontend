@@ -3,14 +3,15 @@ import "./Panes.css";
 import TrPanes from "../../components/TrPanes/TrPanes";
 import TrListaMaterias from "../../components/TrPanes/TrListaMaterias";
 import TrIngredientes from "../../components/TrPanes/TrIngredientes";
+import { useUpload } from "../../hooks/useUpload";
 import swal from "sweetalert";
 
 const Galletas = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [modoEdicion, setModoEdicion] = useState(false);
   const [modoAgregar, setModoAgregar] = useState(false);
-
   const [galletas, setGalletas] = useState([]);
+  const {  urlImage, uploadImage } = useUpload();
 
   const [idGalletaModificar, setIdGalletaModificar] = useState(null);
   const [actualizando, setActualizando] = useState(false);
@@ -21,7 +22,6 @@ const Galletas = () => {
   const [mostrarIngredientes, setMostrarIngredientes] = useState(false);
   const [ingredientesGalleta, setIngredientesGalleta] = useState([]);
   const [galletaSeleccionada, setGalletaSeleccionada] = useState({});
-
 
   const activarFormulario = (idGalleta) => {
     setIdGalletaModificar(idGalleta);
@@ -50,6 +50,11 @@ const Galletas = () => {
     cantidadLote: "",
     receta: "",
   });
+
+  const handleChangeImage = (e) => {
+    if(!e.target.files[0]) return;
+    uploadImage(e.target.files[0], "galletas");
+  }
 
   const cargarDatosEdicion = (galleta) => {
     setFormularioEdicion({
@@ -93,7 +98,7 @@ const Galletas = () => {
       precio,
       descripcion,
       cantidadLote,
-      imagen: "",
+      imagen: urlImage,
       estatus: 1,
       receta,
     }
@@ -311,7 +316,7 @@ const Galletas = () => {
           <textarea name="descripcion" id="descripcion" placeholder="Descripcion de la galleta" value={formularioEdicion.descripcion} onChange={(e) => setFormularioEdicion({...formularioEdicion, descripcion: e.target.value})}></textarea>
           <br />
           <br />
-          <input type="file" name="imagen" id="imagen" />
+          <input accept="image/png, image/jpeg" type="file" name="imagen" id="imagen" onChange={handleChangeImage} />
           <br />
           <br />
           <input type="number" name="cantidadL" id="cantidadL" placeholder="Cantidad por lote" value={formularioEdicion.cantidadLote} onChange={(e) => setFormularioEdicion({...formularioEdicion, cantidadLote: e.target.value})}/>
