@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-const TrOrdenesCompletadas = ({ pan, lote, fecha, estatus, id, handleCompletarOrden }) => {
+const TrOrdenesCancelado = ({ pan, lote, fecha, estatus }) => {
   const [fechaFormateada, setFechaFormateada] = useState("");
 
   useEffect(() => {
@@ -38,4 +38,4 @@ const TrOrdenesCompletadas = ({ pan, lote, fecha, estatus, id, handleCompletarOr
     </tr>
   );
 };
-export default TrOrdenesCompletadas;
+export default TrOrdenesCancelado;

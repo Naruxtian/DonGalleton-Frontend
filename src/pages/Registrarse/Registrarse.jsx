@@ -3,20 +3,29 @@ import "./Registrarse.css";
 import swal from "sweetalert";
 
 const Registrarse = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
 
   const handleRegistrarUsuario = async () => {
     const email = document.getElementById("correo").value;
     const password = document.getElementById("contrasena").value;
-    const name = document.getElementById("nombre").value;
-    const cellphone = document.getElementById("telefono").value;
-    const address = document.getElementById("direccion").value;
+    const nombre = document.getElementById("nombre").value;
+    const telefono = document.getElementById("telefono").value;
+    const direccion = document.getElementById("direccion").value;
 
 
-    if (!name || !email || !password || !cellphone || !address ) {
+    if (!nombre || !email || !password || !telefono || !direccion ) {
       swal("Error", "Todos los campos son obligatorios", "error");
       return;
     }
+
+    const requestBody = {
+      email,
+      password,
+      nombre,
+      rol: "Cliente",
+      telefono,
+      direccion,
+    };
 
     try {
       const response = await fetch("http://localhost:3000/api/users/register", {
@@ -24,14 +33,7 @@ const Registrarse = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          password,
-          name,
-          rol: "Cliente",
-          cellphone,
-          address,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       const data = await response.json();
@@ -46,6 +48,7 @@ const Registrarse = () => {
         document.getElementById("nombre").value = "";
         document.getElementById("telefono").value = "";
         document.getElementById("direccion").value = "";
+        window.location.href = "/login";
       } else {
         console.error("Error al registrar el usuario", data);
       }
@@ -58,7 +61,7 @@ const Registrarse = () => {
     <div className="LoginDiv">
       <div className="divImagenLogin">
         <img
-          src="https://th.bing.com/th/id/OIP.O4JBoGZZeG_sCWvGxLIp0QHaGk?rs=1&pid=ImgDetMain"
+          src="/src/assets/donGalleto.png"
           alt=""
         />
       </div>
@@ -100,6 +103,7 @@ const Registrarse = () => {
                 type="text"
                 name="telefono"
                 id="telefono"
+                maxLength={10}
                 placeholder="Ecribe tu Telefono"
               />
               <br />

@@ -9,7 +9,8 @@ const TrProvisionesPendientes = ({
   costo,
   fecha,
   estatus,
-  handleRecibirPedido
+  handleRecibirPedido,
+  handleCancelarPedido
 }) => {
   const [fechaFormateada, setFechaFormateada] = useState("");
 
@@ -48,7 +49,7 @@ const TrProvisionesPendientes = ({
       </td>
       <td>
         <button className="botonPrimario" onClick={handleRecibirPedido}>Confirmar Recepcion</button>
-        <button className="botonPeligro">Cancelar</button>
+        <button className="botonPeligro" onClick={handleCancelarPedido}>Cancelar</button>
       </td>
     </tr>
   );

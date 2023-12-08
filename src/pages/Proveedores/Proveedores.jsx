@@ -54,7 +54,7 @@ const Proveedores = () => {
 
   const [formularioPedido, setFormularioPedido] = useState({
     producto: "0",
-    cantidad: "",
+    cantidad: 0,
     costoTotal: "",
   });
 
@@ -96,6 +96,18 @@ const Proveedores = () => {
     setMostrarFormularioPedido(true);
   };
 
+  const handleCantidadChange = (e) => {
+    const cantidad = parseFloat(e.target.value);
+    const costo = formularioEdicion.costo || 0; // Asegurarse de tener un valor numérico
+    const costoTotal = calcularCostoTotal(costo, cantidad);
+
+    setFormularioPedido({
+      ...formularioPedido,
+      cantidad,
+      costoTotal,
+    });
+  };
+
   const handleAgregarPedido = async () => {
     
     if (isNaN(formularioPedido.cantidad)) {
@@ -130,7 +142,7 @@ const Proveedores = () => {
         // Limpiar el formulario de pedido después de un pedido exitoso
         setFormularioPedido({
           materiaPrima: "0",
-          cantidad: "",
+          cantidad: 0,
           costoTotal: "",
         });
       } else {
@@ -195,6 +207,7 @@ const Proveedores = () => {
       console.log("Proveedor creado/actualizado correctamente", data);
       setMostrarFormulario(false);
       setActualizando(false);
+      fetchData();
     } else {
       console.error("Error al crear/actualizar el proveedor", data);
       swal("Error", "Error al crear/actualizar el proveedor", data);
@@ -228,6 +241,7 @@ const handleEliminarProveedor = async (idProveedor) => {
 
         const nuevosProveedores = proveedores.filter(proveedor => proveedor.id !== idProveedor);
         setProveedores(nuevosProveedores);
+        fetchData();
       } else {
         console.error("Error al eliminar el proveedor", data);
       }
@@ -237,40 +251,40 @@ const handleEliminarProveedor = async (idProveedor) => {
   }
 };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseProveedores = await fetch("http://localhost:3000/api/proveedores/getAll");
-        const dataProveedores = await responseProveedores.json();
+  const fetchData = async () => {
+    try {
+      const responseProveedores = await fetch("http://localhost:3000/api/proveedores/getAll");
+      const dataProveedores = await responseProveedores.json();
 
-        if (responseProveedores.ok) {
-          const proveedoresArray = Object.values(dataProveedores.data);
-          setProveedores(proveedoresArray);
+      if (responseProveedores.ok) {
+        const proveedoresArray = Object.values(dataProveedores.data);
+        setProveedores(proveedoresArray);
 
-          const responseMateriasPrimas = await fetch("http://localhost:3000/api/materiaPrima/getAll");
-          const dataMateriasPrimas = await responseMateriasPrimas.json();
+        const responseMateriasPrimas = await fetch("http://localhost:3000/api/materiaPrima/getAll");
+        const dataMateriasPrimas = await responseMateriasPrimas.json();
 
-          if (responseMateriasPrimas.ok) {
-            const materiasPrimasArray = Object.values(dataMateriasPrimas.data);
-            const nombresProductosMap = {};
-            
-            materiasPrimasArray.forEach((materiaPrima) => {
-              nombresProductosMap[materiaPrima.id] = materiaPrima.nombre;
-            });
+        if (responseMateriasPrimas.ok) {
+          const materiasPrimasArray = Object.values(dataMateriasPrimas.data);
+          const nombresProductosMap = {};
+          
+          materiasPrimasArray.forEach((materiaPrima) => {
+            nombresProductosMap[materiaPrima.id] = materiaPrima.nombre;
+          });
 
-            setMateriasPrimas(materiasPrimasArray);
-            setNombresProductos(nombresProductosMap);
-          } else {
-            console.error("Error al obtener las materias primas", dataMateriasPrimas);
-          }
+          setMateriasPrimas(materiasPrimasArray);
+          setNombresProductos(nombresProductosMap);
         } else {
-          console.error("Error al obtener los proveedores", dataProveedores);
+          console.error("Error al obtener las materias primas", dataMateriasPrimas);
         }
-      } catch (error) {
-        console.error("Error en la solicitud de obtener los proveedores", error);
+      } else {
+        console.error("Error al obtener los proveedores", dataProveedores);
       }
-    };
+    } catch (error) {
+      console.error("Error en la solicitud de obtener los proveedores", error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []); 
 
@@ -294,7 +308,6 @@ const handleEliminarProveedor = async (idProveedor) => {
             <table className="table-bordered" border="1">
               <thead>
                 <tr>
-                  <th>Pedir</th>
                   <th>Nombre</th>
                   <th>Telefono</th>
                   <th>Empresa</th>
@@ -364,30 +377,25 @@ const handleEliminarProveedor = async (idProveedor) => {
             <input type="number" name="costo" id="costo" placeholder="Costo del producto" value={formularioEdicion.costo} onChange={(e) => setFormularioEdicion({ ...formularioEdicion, costo: e.target.value })} />
             <br />
             <br />
+            <h1 hidden={!modoEdicion}>Pedir Provision</h1>
+            <br />
+            <br />
+            <input hidden={!modoEdicion} type="number" name="cantidad" id="cantidad" placeholder="Cantidad del producto" value={formularioPedido.cantidad} onChange={handleCantidadChange} />
+            <br />
+            <br />
+            <input hidden={!modoEdicion} type="number" name="costo" id="costo" placeholder="Costo del producto" style={{backgroundColor: "lightblue"}} value={formularioPedido.costoTotal} onChange={(e) => setFormularioPedido({...formularioPedido, costoTotal: e.target.value,})}  readOnly={true}/>
+            <br />
+            <br />
+            <button hidden={!modoEdicion} className="botonConfirmacion" onClick={handleAgregarPedido}>
+              Pedir
+            </button>
+            <br />
+            <br />
             <button className="botonAdvertencia" hidden={!modoEdicion} onClick={handleAgregarProveedor}>
               Modificar
             </button>
             <button className="botonConfirmacion" hidden={!modoAgregar} onClick={handleAgregarProveedor}>
               Agregar
-            </button>
-
-            <button className="botonPeligro" onClick={cancelar}>
-              Cancelar
-            </button>
-          </div>
-
-          <div className="formularioProveedores" hidden={!mostrarFormularioPedido}>
-            <h1>Pedir Provision</h1>
-            <br />
-            <br />
-            <input type="number" name="cantidad" id="cantidad" placeholder="Cantidad del producto" value={formularioPedido.cantidad} onChange={(e) => setFormularioPedido({...formularioPedido, cantidad: e.target.value,})} />
-            <br />
-            <br />
-            <input type="number" name="costo" id="costo" placeholder="Costo del producto" style={{backgroundColor: "lightblue"}} value={formularioPedido.costoTotal} onChange={(e) => setFormularioPedido({...formularioPedido, costoTotal: e.target.value,})}  readOnly={true}/>
-            <br />
-            <br />
-            <button className="botonConfirmacion" onClick={handleAgregarPedido}>
-              Pedir
             </button>
             <button className="botonPeligro" onClick={cancelar}>
               Cancelar

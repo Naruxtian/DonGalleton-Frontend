@@ -36,7 +36,7 @@ const Login = () => {
           "direccion",
           JSON.stringify(responseData.data.direccion)
         );
-
+        localStorage.setItem("rol", JSON.stringify(responseData.data.rol));
         // Corrige el redireccionamiento
         window.location.href = "/catalogo";
       } else {

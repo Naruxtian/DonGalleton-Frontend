@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 const TrPanes = ({
   id,
@@ -9,8 +9,31 @@ const TrPanes = ({
   img,
   activarFormulario,
   handleEliminarGalleta,
-  handleMostrarIngredientes
+  ingredientes
 }) => {
+
+  const [materiasPrimas, setMateriasPrimas] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/materiaPrima/getAll");
+        const data = await response.json();
+
+        if (response.ok) {
+          const materiasPrimasArray = Object.values(data.data);
+          setMateriasPrimas(materiasPrimasArray);
+        } else {
+          console.error("Error al obtener las materias primas", data);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de obtener materias primas", error);
+      }
+    };
+
+    fetchData();
+  }, []); 
+
   return (
     <tr>
       <td>{nombre}</td>
@@ -21,7 +44,17 @@ const TrPanes = ({
         <img src={img} alt="" />
       </td>
       <td>
-        <button className="botonConfirmacion" onClick={handleMostrarIngredientes}>Ingredientes</button>
+      {Array.isArray(ingredientes) && ingredientes.length > 0 ? (
+          <ul>
+            {ingredientes.map((ingrediente, index) => (
+              <li key={index}>
+                {materiasPrimas.find((mp) => mp.id === ingrediente.materiaPrima)?.nombre} - {ingrediente.cantidad}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          "Sin ingredientes"
+        )}
       </td>
       <td>
         <button className="botonPeligro" onClick={handleEliminarGalleta}>delete</button>

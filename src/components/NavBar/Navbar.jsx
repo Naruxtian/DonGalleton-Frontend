@@ -1,12 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
+  const [userRole, setUserRole] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedRole = JSON.parse(localStorage.getItem("rol"));
+    console.log(storedRole);
+
+    if (storedRole) {
+      setUserRole(storedRole);
+    }
+
+    const usuarioStorage = localStorage.getItem("usuario");
+    setIsLoggedIn(!!usuarioStorage);
+  }, []);
 
   const toggleNav = () => {
     setShowNav(!showNav);
   };
+
+  const handleLogout = () => {
+    // Limpiar el localStorage
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("direccion");
+    localStorage.removeItem("rol");
+    // Redirigir a la página de inicio
+    window.location.href = "/";
+  };
+
   return (
     <div className="barraNavegacion">
       <div className="logoTipo">
@@ -23,29 +47,41 @@ const Navbar = () => {
         <div className={showNav ? "nav-links show div" : "nav-links div"}>
           <nav className={showNav ? "nav-links show" : "nav-links"}>
             <a href="/">Inicio</a>
-            <a href="/contactanos">Contactanos</a>
-            <a href="/login">Iniciar Sesion</a>
-            <a href="/registrarse">Registrarse</a>
 
             <a href="/catalogo">Catalogo</a>
-            <a href="/carrito">Carrito</a>
-            <a href="/pedidos">Mis Pedidos</a>
+            {
+              isLoggedIn  ? (
+                <>
+                
+                
+                </>
+              ) : (
+                <>
+                <a href="/contactanos">Contactanos</a>
+                <a href="/login">Iniciar Sesion</a>
+                <a href="/registrarse">Registrarse</a>
+                </>
+              )
+            }
+            {(userRole === 'Cliente') && <a href="/carrito">Carrito</a>}
+            {(userRole === 'Cliente') && <a href="/pedidos">Mis Pedidos</a>}
 
-            <a href="/ventas">Ventas</a>
-            <a href="/proveedores">Proveedores</a>
-            <a href="/provisiones">Provisiones</a>
-            <a href="/envios">Envios</a>
-            <a href="/estadisticas">Estadisticas</a>
+            {userRole === 'Admin' && <a href="/ventas">Ventas</a>}
+            {userRole === 'Admin' &&  <a href="/proveedores">Proveedores</a>}
+            {userRole === 'Admin' && <a href="/provisiones">Provisiones</a>}
+            {userRole === 'Admin' && <a href="/envios">Envios</a>}
+            {userRole === 'Admin' && <a href="/estadisticas">Estadisticas</a>}
 
-            <a href="/galletas">Galletas</a>
+            {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/galletas">Galletas</a>}
             {/* <a href="/ingredientes">Panes/ ingredientes</a> */}
-            <a href="/cocina">Cocina</a>
+            {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/cocina">Cocina</a>}
 
-            <a href="/pan-seleccionado">Cocina/ GalletaSeleccionao</a>
-            <a href="/ordenes">Cocina/ ordenesDeCocina</a>
-            <a href="/materia_prima">Materia prima</a>
+            {/* {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/pan-seleccionado">Cocina/ GalletaSeleccionao</a>} */}
+            {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/ordenes">OrdenesDeCocina</a>}
+            {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/materia_prima">Materia prima</a>}
 
-            <a href="/usuarios">Usuarios</a>
+            {userRole === 'Admin' && <a href="/usuarios">Usuarios</a>}
+            {(userRole === 'Admin' || userRole === 'Cocinero' || userRole === 'Cliente') && <a href="#" onClick={handleLogout}>Cerrar Sesión</a>}
           </nav>
         </div>
       </div>

@@ -22,6 +22,10 @@ const Provisiones = () => {
       dangerMode: true,
     });
 
+    const requestBody = {
+      id: id,
+    };
+
     if(confirmarProvision){
       try {
         const response = await fetch(`http://localhost:3000/api/provisiones/recibir/${id}`, {
@@ -29,6 +33,7 @@ const Provisiones = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify(requestBody),
         });
         const data = await response.json();
   
@@ -36,6 +41,46 @@ const Provisiones = () => {
           const provisionesArray = Object.values(data.data);
           setProvisiones(provisionesArray);
           swal("Pedido recibido", "El pedido ha sido recibido con exito", "success");
+          fetchData();
+        } else {
+          console.error("Error al recibir el pedido", data);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de recibir el pedido", error);
+      }
+    }
+  }
+
+  const handleCancelarPedido = async (id) => {
+
+    const confirmarProvision = await swal({
+      title: "¿Estás seguro?",
+      text: "Una vez cancelado el pedido, no se podrá revertir la acción",
+      icon: "warning",
+      buttons: ["Cancelar", "Aceptar"],
+      dangerMode: true,
+    });
+
+    const requestBody = {
+      id: id,
+    };
+
+    if(confirmarProvision){
+      try {
+        const response = await fetch(`http://localhost:3000/api/provisiones/cancelar/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+        const data = await response.json();
+  
+        if (response.ok) {
+          const provisionesArray = Object.values(data.data);
+          setProvisiones(provisionesArray);
+          swal("Pedido cancelado", "El pedido ha sido cancelado con exito", "success");
+          fetchData();
         } else {
           console.error("Error al recibir el pedido", data);
         }
@@ -45,59 +90,59 @@ const Provisiones = () => {
     }
 
   }
+
+  const fetchData = async () => {
+    try {
+      const responseProvisiones = await fetch("http://localhost:3000/api/provisiones/getAll");
+      const dataProvisiones = await responseProvisiones.json();
+
+      if (responseProvisiones.ok) {
+        const provisionesArray = Object.values(dataProvisiones.data);
+        setProvisiones(provisionesArray);
+
+        const responseProveedores = await fetch("http://localhost:3000/api/proveedores/getAll");
+        const dataProveedores = await responseProveedores.json();
+
+        if(responseProveedores.ok){
+          const proveedoresArray = Object.values(dataProveedores.data);
+          const nombresProveedores = {};
+
+          proveedoresArray.forEach((proveedor) => {
+            nombresProveedores[proveedor.id] = {
+              nombre: proveedor.nombre,
+              empresa: proveedor.empresa,
+              telefono: proveedor.telefono,
+            }
+          });
+
+          setProveedores(nombresProveedores);
+          setNombresProveedores(nombresProveedores);
+
+          const responseMateriasPrimas = await fetch("http://localhost:3000/api/materiaPrima/getAll");
+          const dataMateriasPrimas = await responseMateriasPrimas.json();
+
+          if(responseMateriasPrimas.ok){
+            const materiasPrimasArray = Object.values(dataMateriasPrimas.data);
+            const nombresMateriasPrimas = {};
+
+            materiasPrimasArray.forEach((materiaPrima) => {
+              nombresMateriasPrimas[materiaPrima.id] = materiaPrima.nombre;
+            })
+
+            setMateriasPrimas(nombresMateriasPrimas);
+            setNombresMateriasPrimas(nombresMateriasPrimas);
+          }
+        }
+      } else {
+        console.error("Error al obtener las materias primas", dataProvisiones);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud de obtener materias primas", error);
+    }
+  };
   
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseProvisiones = await fetch("http://localhost:3000/api/provisiones/getAll");
-        const dataProvisiones = await responseProvisiones.json();
-
-        if (responseProvisiones.ok) {
-          const provisionesArray = Object.values(dataProvisiones.data);
-          setProvisiones(provisionesArray);
-
-          const responseProveedores = await fetch("http://localhost:3000/api/proveedores/getAll");
-          const dataProveedores = await responseProveedores.json();
-
-          if(responseProveedores.ok){
-            const proveedoresArray = Object.values(dataProveedores.data);
-            const nombresProveedores = {};
-
-            proveedoresArray.forEach((proveedor) => {
-              nombresProveedores[proveedor.id] = {
-                nombre: proveedor.nombre,
-                empresa: proveedor.empresa,
-                telefono: proveedor.telefono,
-              }
-            });
-
-            setProveedores(nombresProveedores);
-            setNombresProveedores(nombresProveedores);
-
-            const responseMateriasPrimas = await fetch("http://localhost:3000/api/materiaPrima/getAll");
-            const dataMateriasPrimas = await responseMateriasPrimas.json();
-
-            if(responseMateriasPrimas.ok){
-              const materiasPrimasArray = Object.values(dataMateriasPrimas.data);
-              const nombresMateriasPrimas = {};
-
-              materiasPrimasArray.forEach((materiaPrima) => {
-                nombresMateriasPrimas[materiaPrima.id] = materiaPrima.nombre;
-              })
-
-              setMateriasPrimas(nombresMateriasPrimas);
-              setNombresMateriasPrimas(nombresMateriasPrimas);
-            }
-          }
-        } else {
-          console.error("Error al obtener las materias primas", dataProvisiones);
-        }
-      } catch (error) {
-        console.error("Error en la solicitud de obtener materias primas", error);
-      }
-    };
-
     fetchData();
   }, []); 
 
@@ -139,6 +184,8 @@ const Provisiones = () => {
                   fecha={provision.fechaPedido}
                   estatus={provision.estatus ? 'Pendiente': 'Entregado'}
                   handleRecibirPedido={() => handleRecibirPedido(provision.id)}
+                  handleCancelarPedido={() => handleCancelarPedido(provision.id)}
+                  id={provision.id}
                   />
                 ))
               }

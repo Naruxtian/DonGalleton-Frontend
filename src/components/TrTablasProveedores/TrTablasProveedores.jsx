@@ -12,15 +12,9 @@ const TrTablasProveedores = ({
   activarFormulario,
   activarAgregar,
   handleEliminarProveedor,
-  handleMostrarPedido
 }) => {
   return (
     <tr>
-      <td>
-        <button className="botonPrimario" onClick={handleMostrarPedido}>
-          +
-        </button>
-      </td>
       <td>{nombre}</td>
       <td>{telefono}</td>
 

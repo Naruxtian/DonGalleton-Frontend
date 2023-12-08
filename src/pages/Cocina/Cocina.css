@@ -9,6 +9,10 @@
     overflow-x: scroll;
 }
 
+.todasGalletas img {
+    max-height: 10%;
+}
+
 .panSeleccionado{
     padding: 10px;
     text-align: center;

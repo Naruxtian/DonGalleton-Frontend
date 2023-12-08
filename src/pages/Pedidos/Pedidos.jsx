@@ -1,16 +1,56 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./Pedidos.css";
 import TrTablaPedidos from "../../components/TRTablaPedidos/TrTablaPedidos";
 import swal from "sweetalert";
 
 const Pedidos = () => {
+  const [pedidos, setPedidos] = useState([]);
+  const [galletas, setGalletas] = useState([]);
+  const [nombresGalletas, setNombresGalletas] = useState({});
+
+  const storeUsuario = JSON.parse(localStorage.getItem("usuario"));
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/pedidos/getFromUser/${storeUsuario}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        const materiasPrimasArray = Object.values(data.data);
+        setPedidos(materiasPrimasArray);
+        const responseGalletas = await fetch("http://localhost:3000/api/galletas/getAll");
+        const dataGalletas = await responseGalletas.json();
+
+        if(responseGalletas.ok){
+          const galletasArray = Object.values(dataGalletas.data);
+          const nombresGalletas = {};
+
+          galletasArray.forEach((galleta) => {
+            nombresGalletas[galleta.id] = galleta.nombre;
+          });
+          setGalletas(nombresGalletas);
+          setNombresGalletas(nombresGalletas);
+        } else {
+          console.error("Error al obtener las galletas", dataGalletas);
+        }
+      } else {
+        console.error("Error al obtener los pedidos", data);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud de obtener los pedidos", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []); 
   
   return (
     <div className="pedidos">
       <h2>Mis pedidos</h2>
       <br />
       <div className="tablaPedidos">
-        <table border="1">
+        <table className="table-bordered"  border="1">
           <thead>
             <tr>
               <th>Productos</th>
@@ -21,27 +61,18 @@ const Pedidos = () => {
             </tr>
           </thead>
           <tbody>
-            <TrTablaPedidos
-              nombre={"galleta de chocolate"}
-              total={"12"}
-              direccion={"Calle de ejemplo colonia de ejemplo"}
-              fecha={"12/12/2000"}
-              estatus={"Pendiente"}
-            />
-            <TrTablaPedidos
-              nombre={"galleta de vainilla"}
-              total={"12"}
-              direccion={"Calle de ejemplo colonia de ejemplo"}
-              fecha={"12/12/2000"}
-              estatus={"Entregado"}
-            />
-            <TrTablaPedidos
-              nombre={"galleta de naranja"}
-              total={"12"}
-              direccion={"Calle de ejemplo colonia de ejemplo"}
-              fecha={"12/12/2000"}
-              estatus={"Cancelado"}
-            />
+            {
+              Array.isArray(pedidos) && pedidos.map((pedido) => (
+                <TrTablaPedidos
+                  key={pedido.id}
+                  nombre={pedido.galletas.map((galleta) => nombresGalletas[galleta.galleta]).join(', ')}
+                  total={pedido.total}
+                  direccion={pedido.direccion}
+                  fecha={pedido.fecha}
+                  estatus={pedido.estatus}
+                />
+              ))
+            }
           </tbody>
         </table>
       </div>

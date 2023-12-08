@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-const TrOrdenesCompletadas = ({ pan, lote, fecha, estatus, id, handleCompletarOrden }) => {
+const TrOrdenesCocinando = ({ pan, lote, fecha, estatus, id, handleCompletarOrden }) => {
   const [fechaFormateada, setFechaFormateada] = useState("");
 
   useEffect(() => {
@@ -35,7 +35,10 @@ const TrOrdenesCompletadas = ({ pan, lote, fecha, estatus, id, handleCompletarOr
       >
         {estatus}
       </td>
+      <td>
+        <button className="botonAdvertencia" onClick={handleCompletarOrden}>Completar</button>
+      </td>
     </tr>
   );
 };
-export default TrOrdenesCompletadas;
+export default TrOrdenesCocinando;

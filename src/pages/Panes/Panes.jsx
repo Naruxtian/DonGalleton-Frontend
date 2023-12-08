@@ -23,6 +23,11 @@ const Galletas = () => {
   const [ingredientesGalleta, setIngredientesGalleta] = useState([]);
   const [galletaSeleccionada, setGalletaSeleccionada] = useState({});
 
+  const [ingredientesForm, setIngredientesForm] = useState({
+    materiaPrima: "",
+    cantidad: "",
+  });
+
   const activarFormulario = (idGalleta) => {
     setIdGalletaModificar(idGalleta);
     setModoEdicion(true);
@@ -42,6 +47,38 @@ const Galletas = () => {
     setMostrarIngredientes(false);
   };
 
+  const handleAgregarIngredienteForm = () => {
+    if (!ingredientesForm.materiaPrima || isNaN(ingredientesForm.cantidad)) {
+      swal("Error", "Por favor, ingrese una materia prima y cantidad válida", "error");
+      return;
+    }
+
+    const nuevoIngrediente = {
+      materiaPrima: ingredientesForm.materiaPrima,
+      cantidad: parseFloat(ingredientesForm.cantidad),
+    };  
+
+    setFormularioEdicion((prevFormularioEdicion) => ({
+      ...prevFormularioEdicion,
+      ingredientes: [...(prevFormularioEdicion.ingredientes || []), nuevoIngrediente],
+    }));
+
+    // Limpiar el formulario de ingredientes
+    setIngredientesForm({
+      materiaPrima: "",
+      cantidad: "",
+    });
+  };
+
+  const handleEliminarIngrediente = (index) => {
+    const nuevosIngredientes = [...(formularioEdicion.ingredientes || [])];
+    nuevosIngredientes.splice(index, 1);
+    setFormularioEdicion({
+      ...formularioEdicion,
+      ingredientes: nuevosIngredientes,
+    });
+  };
+
   const [formularioEdicion, setFormularioEdicion] = useState({
     nombre: "",
     precio: "",
@@ -49,6 +86,7 @@ const Galletas = () => {
     imagen: "",
     cantidadLote: "",
     receta: "",
+    ingredientes: [],
   });
 
   const handleChangeImage = (e) => {
@@ -64,6 +102,7 @@ const Galletas = () => {
       imagen: galleta.imagen,
       cantidadLote: galleta.cantidadLote,
       receta: galleta.receta,
+      ingredientes: galleta.ingredientes,
     });
 
     setIdGalletaModificar(galleta.id);
@@ -84,8 +123,18 @@ const Galletas = () => {
     const precio = parseFloat(document.getElementById("precio").value);
     const descripcion = document.getElementById("descripcion").value;
     const cantidadLote = parseInt(document.getElementById("cantidadL").value);
-    // const imagen = document.getElementById("imagen").value;
     const receta = document.getElementById("receta").value;
+
+    const ingredientes = [];
+    for (let i = 0; i < formularioEdicion.ingredientes.length; i++) {
+      const idMateriaPrima = formularioEdicion.ingredientes[i].materiaPrima;
+      const cantidadIngrediente = formularioEdicion.ingredientes[i].cantidad;
+
+      ingredientes.push({
+        materiaPrima: idMateriaPrima,
+        cantidad: cantidadIngrediente,
+      });
+    }
 
     if (!nombre || isNaN(precio) || !descripcion || isNaN(cantidadLote)  || !receta ) {
       swal("Error", "Todos los campos son obligatorios", "error");
@@ -101,6 +150,7 @@ const Galletas = () => {
       imagen: urlImage,
       estatus: 1,
       receta,
+      ingredientes,
     }
 
     try {
@@ -143,6 +193,7 @@ const Galletas = () => {
     } catch (error) {
       console.error("Error en la solicitud de agregar/actualizar galleta", error);
     }
+    fetchData();
   };
   
   const handleEliminarGalleta = async (idGalleta) => {
@@ -167,9 +218,9 @@ const Galletas = () => {
         if (response.ok) {
           swal("Éxito", "Galleta eliminada correctamente", "success");
           console.log("Galleta eliminada correctamente", data);
-
           const nuevasGalletas = galletas.filter((galleta) => galleta.id !== idGalleta);
           setGalletas(nuevasGalletas);
+          fetchData();
         } else {
           console.error("Error al eliminar la galleta", data);
         }
@@ -177,85 +228,41 @@ const Galletas = () => {
         console.error("Error en la solicitud de eliminar galleta", error);
       }
     }
-  };
+  };  
 
-  const addIngredientes = async (idGalleta, nuevosIngredientes) => {
+  const fetchData = async () => {
     try {
-      const url = `http://localhost:3000/api/galletas/addIngrediente/${idGalleta}`;
-      const method = "PUT";
-  
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ingredientes: nuevosIngredientes }),
-      });
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        swal("Ingredientes agregados correctamente", "", "success");
-        console.log("Ingredientes agregados correctamente", data);
-  
-        setIngredientesGalleta([...ingredientesGalleta, ...nuevosIngredientes]);
+      const responseGalletas = await fetch("http://localhost:3000/api/galletas/getAll");
+      const dataGalletas = await responseGalletas.json();
+
+      if (responseGalletas.ok) {
+        const galletasArray = Object.values(dataGalletas.data);
+        setGalletas(galletasArray);
+
+        const responseMateriasPrimas = await fetch("http://localhost:3000/api/materiaPrima/getAll");
+        const dataMateriasPrimas = await responseMateriasPrimas.json();
+
+        if(responseMateriasPrimas.ok){
+          const materiasPrimasArray = Object.values(dataMateriasPrimas.data);
+          const nombresProductosMap = {};
+
+          materiasPrimasArray.forEach((materiaPrima) => {
+            nombresProductosMap[materiaPrima.id] = materiaPrima.nombre;
+          });
+          setMateriasPrimas(materiasPrimasArray);
+          setNombresProductos(nombresProductosMap);
+        } else {
+          console.error("Error al obtener las materias primas", dataMateriasPrimas);
+        }
       } else {
-        console.error("Error al agregar ingredientes", data);
+        console.error("Error al obtener las galletas", data);
       }
     } catch (error) {
-      console.error("Error en la solicitud de agregar ingredientes", error);
+      console.error("Error en la solicitud de obtener galletas", error);
     }
   };
-
-  const handleAgregarIngredientes = (materiaPrima) => {
-    const cantidadIngrediente = document.getElementById("cantidadIngrediente").value;
-  
-    if (!cantidadIngrediente || isNaN(cantidadIngrediente)) {
-      swal("Error", "Por favor, ingrese una cantidad válida", "error");
-      return;
-    }
-  
-    const nuevoIngrediente = {
-      idMateriaPrima: materiaPrima.id,
-      cantidad: parseInt(cantidadIngrediente),
-    };
-  
-    addIngredientes(galletaSeleccionada.id, [nuevoIngrediente]);
-  };
-  
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseGalletas = await fetch("http://localhost:3000/api/galletas/getAll");
-        const dataGalletas = await responseGalletas.json();
-
-        if (responseGalletas.ok) {
-          const galletasArray = Object.values(dataGalletas.data);
-          setGalletas(galletasArray);
-
-          const responseMateriasPrimas = await fetch("http://localhost:3000/api/materiaPrima/getAll");
-          const dataMateriasPrimas = await responseMateriasPrimas.json();
-
-          if(responseMateriasPrimas.ok){
-            const materiasPrimasArray = Object.values(dataMateriasPrimas.data);
-            const nombresProductosMap = {};
-
-            materiasPrimasArray.forEach((materiaPrima) => {
-              nombresProductosMap[materiaPrima.id] = materiaPrima.nombre;
-            });
-            setMateriasPrimas(materiasPrimasArray);
-            setNombresProductos(nombresProductosMap);
-          } else {
-            console.error("Error al obtener las materias primas", dataMateriasPrimas);
-          }
-        } else {
-          console.error("Error al obtener las galletas", data);
-        }
-      } catch (error) {
-        console.error("Error en la solicitud de obtener galletas", error);
-      }
-    };
     fetchData();
   }, []); 
 
@@ -269,7 +276,7 @@ const Galletas = () => {
       <br />
       <div>
         <div className="tablaPanes">
-          <table border="1">
+          <table className="table-bordered" border="1">
             <thead>
               <tr>
                 <th>Nombre</th>
@@ -325,6 +332,43 @@ const Galletas = () => {
           <textarea name="receta" id="receta" placeholder="Receta" value={formularioEdicion.receta} onChange={(e) => setFormularioEdicion({...formularioEdicion, receta: e.target.value})}></textarea>
           <br />
           <br />
+          <h4 hidden={!modoEdicion}>Ingredientes Actuales</h4>
+          <ul hidden={!modoEdicion}>
+          {formularioEdicion.ingredientes && formularioEdicion.ingredientes.length > 0 && (
+            formularioEdicion.ingredientes.map((ingrediente, index) => (
+              <li key={index}>
+                {nombresProductos[ingrediente.materiaPrima]} - {ingrediente.cantidad}{" "}
+                <button className="btn btn-danger" onClick={() => handleEliminarIngrediente(index)}>X</button>
+              </li>
+            ))
+          )}
+          </ul>
+          <br />
+          <select hidden={!modoEdicion}
+            name="materiaPrima"
+            id="materiaPrima"
+            value={ingredientesForm.materiaPrima}
+            onChange={(e) => setIngredientesForm({ ...ingredientesForm, materiaPrima: e.target.value })}
+          >
+            <option value="">Seleccione una ingrediente</option>
+            {materiasPrimas.map((materiaPrima) => (
+              <option key={materiaPrima.id} value={materiaPrima.id}>
+                {materiaPrima.nombre}
+              </option>
+            ))}
+          </select>
+          <br /><br />
+          <input hidden={!modoEdicion}
+            type="number"
+            name="cantidad"
+            id="cantidad"
+            placeholder="Cantidad"
+            value={ingredientesForm.cantidad}
+            onChange={(e) => setIngredientesForm({ ...ingredientesForm, cantidad: e.target.value })}
+          /> <br /> <br />
+          <button className="botonConfirmacion" hidden={!modoEdicion} onClick={handleAgregarIngredienteForm}>Agregar Ingrediente</button>
+            <br />
+            <br />
           <button className="botonAdvertencia" hidden={!modoEdicion} onClick={handleAgregarGalleta}>
             Modificar
           </button>
@@ -332,62 +376,6 @@ const Galletas = () => {
             Agregar
           </button>
           <button className="botonPeligro" onClick={cancelar}>
-            Cancelar
-          </button>
-        </div>
-
-        <div className="" hidden={!mostrarIngredientes}>
-            <div>
-              <h2>Ingredientes de la galleta</h2>
-              <div className="tablasIngredientes">
-                <div className="tablaMateriasIngredientes">
-                  <table border="1">
-                    <thead>
-                      <tr>
-                        <th>Nombre</th>
-                        <th>Agregar</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        Array.isArray(materiasPrimas) && materiasPrimas.map((materiaPrima) => (
-                          <TrListaMaterias
-                            key={materiaPrima.id}
-                            nombre={materiaPrima.nombre}
-                            id={materiaPrima.id}
-                            handleAgregarIngredientes={handleAgregarIngredientes}
-                          />
-                        ))
-                      }
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="tablaIngredientesPAn">
-                  <table border="1">
-                    <thead>
-                      <tr>
-                        <th>Nombre</th>
-                        <th>Cantidad</th>
-                        <th>Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        Array.isArray(ingredientesGalleta) && ingredientesGalleta.map((ingrediente, index) => (
-                          <TrIngredientes
-                            key={index}
-                            nombre={ingrediente.idMateriaPrima}
-                            cantidad={ingrediente.cantidad}
-                          />
-                        ))
-                      }
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <button className="botonPeligro" onClick={cancelar}>
             Cancelar
           </button>
         </div>
