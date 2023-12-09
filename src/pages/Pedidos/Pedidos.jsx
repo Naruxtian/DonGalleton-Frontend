@@ -62,16 +62,21 @@ const Pedidos = () => {
           </thead>
           <tbody>
             {
-              Array.isArray(pedidos) && pedidos.map((pedido) => (
-                <TrTablaPedidos
+              Array.isArray(pedidos) && pedidos.map((pedido) => {
+                const fechaDate = new Date(pedido.fecha);
+                  const options = { year: "numeric", month: "long", day: "numeric"};
+                  const fechaFormateada = fechaDate.toLocaleDateString("es-MX", options);
+                return (
+                  <TrTablaPedidos
                   key={pedido.id}
                   nombre={pedido.galletas.map((galleta) => nombresGalletas[galleta.galleta]).join(', ')}
                   total={pedido.total}
                   direccion={pedido.direccion}
-                  fecha={pedido.fecha}
+                  fecha={fechaFormateada}
                   estatus={pedido.estatus}
                 />
-              ))
+                )
+              })
             }
           </tbody>
         </table>

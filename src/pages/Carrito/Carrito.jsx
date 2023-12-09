@@ -79,7 +79,7 @@ const Carrito = () => {
       <div>
         <h2>Carrito</h2>
         <br />
-        <table border="1">
+        <table className="table-bordered" border="1">
           <thead>
             <tr>
               <th></th>

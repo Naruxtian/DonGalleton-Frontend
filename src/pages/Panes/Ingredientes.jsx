@@ -37,7 +37,7 @@ const Ingredientes = () => {
       <h2>Ingredientes por lote de pan</h2>
       <div className="tablasIngredientes">
         <div className="tablaMateriasIngredientes">
-          <table border="1">
+          <table className="table-bordered" border="1">
             <thead>
               <tr>
                 <th>Nombre</th>
@@ -58,7 +58,7 @@ const Ingredientes = () => {
         </div>
 
         <div className="tablaIngredientesPAn">
-          <table border="1">
+          <table className="table-bordered" border="1">
             <thead>
               <tr>
                 <th>Nombre</th>

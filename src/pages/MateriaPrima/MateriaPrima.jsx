@@ -156,7 +156,7 @@ const MateriaPrima = () => {
           }
         >
           <div className="tablaMaterias">
-            <table border="1">
+            <table className="table-bordered" border="1">
               <thead>
                 <tr>
                   <th>Producto</th>
