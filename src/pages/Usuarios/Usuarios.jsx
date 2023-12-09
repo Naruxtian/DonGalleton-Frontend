@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./Usuarios.css";
 import TrUsuarios from "../../components/TrUsuarios/TrUsuarios";
 import swal from "sweetalert";
 
 const Usuarios = () => {
-
   const [usuarios, setUsuarios] = useState([]);
   const [user, setUser] = useState([]);
 
@@ -15,8 +14,9 @@ const Usuarios = () => {
     const telefono = document.getElementById("telefono").value;
     const direccion = document.getElementById("direccion").value;
 
+    const rol = document.getElementById("rol").value;
 
-    if (!nombre || !email || !password || !telefono || !direccion ) {
+    if (!nombre || !email || !password || !telefono || !direccion) {
       swal("Error", "Todos los campos son obligatorios", "error");
       return;
     }
@@ -25,7 +25,7 @@ const Usuarios = () => {
       email,
       password,
       nombre,
-      rol: "Cliente",
+      rol,
       telefono,
       direccion,
     };
@@ -59,8 +59,7 @@ const Usuarios = () => {
       console.error("Error en la solicitud del registro del usuario", error);
     }
   };
-  
-  
+
   useEffect(() => {
     const getUsuarios = async () => {
       try {
@@ -77,7 +76,7 @@ const Usuarios = () => {
       }
     };
     getUsuarios();
-  }, [])
+  }, []);
 
   return (
     <div className="usuarios">
@@ -94,23 +93,21 @@ const Usuarios = () => {
               </tr>
             </thead>
             <tbody>
-              {
-                Array.isArray(usuarios) && usuarios
-                .filter((usuario) => usuario.rol === "Cliente" )
-                .map((usuario) => (
-                  <TrUsuarios
-                    key={usuario.id}
-                    nombre={usuario.nombre}
-                    email={usuario.email}
-                    rol={usuario.rol}
-                  />
-                ))
-              }
+              {Array.isArray(usuarios) &&
+                usuarios
+                  .filter((usuario) => usuario.rol === "Cliente")
+                  .map((usuario) => (
+                    <TrUsuarios
+                      key={usuario.id}
+                      nombre={usuario.nombre}
+                      email={usuario.email}
+                      rol={usuario.rol}
+                    />
+                  ))}
             </tbody>
           </table>
         </div>
       </div>
-
       <h3>Empleados</h3>
       <div>
         <div className="tablaUsuarios">
@@ -123,21 +120,71 @@ const Usuarios = () => {
               </tr>
             </thead>
             <tbody>
-              {
-                Array.isArray(usuarios) && usuarios
-                .filter((usuario) => usuario.rol === "Admin" || usuario.rol === "Cocinero" )
-                .map((usuario) => (
-                  <TrUsuarios
-                    key={usuario.id}
-                    nombre={usuario.nombre}
-                    email={usuario.email}
-                    rol={usuario.rol}
-                  />
-                ))
-              }
+              {Array.isArray(usuarios) &&
+                usuarios
+                  .filter(
+                    (usuario) =>
+                      usuario.rol === "Admin" || usuario.rol === "Cocinero"
+                  )
+                  .map((usuario) => (
+                    <TrUsuarios
+                      key={usuario.id}
+                      nombre={usuario.nombre}
+                      email={usuario.email}
+                      rol={usuario.rol}
+                    />
+                  ))}
             </tbody>
           </table>
         </div>
+      </div>
+      <br />
+      <br />
+      <div className="cardConfiguracion">
+        <h3>Modificar</h3>
+        <input type="text" name="nombre" id="nombre" placeholder="Nombre" />
+        <br />
+        <br />
+
+        <input type="text" name="correo" id="correo" placeholder="Email" />
+        <br />
+        <br />
+        <input
+          type="text"
+          name="contrasena"
+          id="contrasena"
+          placeholder="Contraseña"
+        />
+        <br />
+        <br />
+        <select name="rol" id="rol">
+          <option value="Admin">Admin</option>
+          <option value="Cocinero">Cocinero</option>
+        </select>
+        <br />
+        <br />
+        <input
+          type="text"
+          name="direccion"
+          id="direccion"
+          placeholder="Direccion"
+        />
+        <br />
+        <br />
+        <input
+          type="text"
+          name="telefono"
+          id="telefono"
+          placeholder="Telefono"
+        />
+        <br />
+        <br />
+        <button
+          className="botonAdvertencia"
+          onClick={() => handleRegistrarUsuario()}
+        >
+          Cambiar
+        </button>
       </div>
     </div>
   );
