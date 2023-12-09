@@ -13,7 +13,147 @@ const Envios = () => {
   const [nombresUsuarios, setNombresUsuarios] = useState({});
   const [galletas, setGalletas] = useState([]);
   const [nombresGalletas, setNombresGalletas] = useState({});
+  const [procesarEnvio, setProcesarEnvio] = useState([]);
+  const [EnviarEnvio, setEnviarEnvio] = useState([]);
+  const [EntregarEnvio, setEntregarEnvio] = useState([]);
+  const [CancelarEnvio, setCancelarEnvio] = useState([]);
   
+  const handleProcesarEnvio = async (id) => {
+
+    const confirmarEnvio = await swal({
+      title: "¿Estás seguro?",
+      text: "Una vez procesado el envio , no se podrá revertir la acción",
+      icon: "warning",
+      buttons: ["Cancelar", "Aceptar"],
+      dangerMode: true,
+    });
+
+    if(confirmarEnvio){
+      try {
+        const response = await fetch(`http://localhost:3000/api/pedidos/procesar/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+        const data = await response.json();
+  
+        if (response.ok) {
+          const envioArray = Object.values(data.data);
+          setProcesarEnvio(envioArray);
+          swal("Envio procesadp", "El envio ha sido procesado con exito", "success");
+          fetchData();
+        } else {
+          console.error("Error al recibir el pedido", data);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de recibir el pedido", error);
+      }
+    }
+  }
+
+  const handleEnviarEnvio = async (id) => {
+
+    const confirmarEnvio = await swal({
+      title: "¿Estás seguro?",
+      text: "Una vez enviado el envio , no se podrá revertir la acción",
+      icon: "warning",
+      buttons: ["Cancelar", "Aceptar"],
+      dangerMode: true,
+    });
+
+    if(confirmarEnvio){
+      try {
+        const response = await fetch(`http://localhost:3000/api/pedidos/enviar/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+        const data = await response.json();
+  
+        if (response.ok) {
+          const enviarArray = Object.values(data.data);
+          setEnviarEnvio(enviarArray);
+          swal("Envio Enviado", "El envio ha sido enviado con exito", "success");
+          fetchData();
+        } else {
+          console.error("Error al recibir el pedido", data);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de recibir el pedido", error);
+      }
+    }
+  }
+
+  const handleEntregarEnvio = async (id) => {
+
+    const confirmarEnvio = await swal({
+      title: "¿Estás seguro?",
+      text: "Una vez entregado el envio , no se podrá revertir la acción",
+      icon: "warning",
+      buttons: ["Cancelar", "Aceptar"],
+      dangerMode: true,
+    });
+
+    if(confirmarEnvio){
+      try {
+        const response = await fetch(`http://localhost:3000/api/pedidos/completar/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+        const data = await response.json();
+  
+        if (response.ok) {
+          const entregarArray = Object.values(data.data);
+          setEntregarEnvio(entregarArray);
+          swal("Envio Entregado", "El envio ha sido entregado con exito", "success");
+          fetchData();
+        } else {
+          console.error("Error al recibir el pedido", data);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de recibir el pedido", error);
+      }
+    }
+  }
+
+  const handleCancelarEnvio = async (id) => {
+
+    const confirmarEnvio = await swal({
+      title: "¿Estás seguro?",
+      text: "Una vez cancelada el envio , no se podrá revertir la acción",
+      icon: "warning",
+      buttons: ["Cancelar", "Aceptar"],
+      dangerMode: true,
+    });
+
+    if(confirmarEnvio){
+      try {
+        const response = await fetch(`http://localhost:3000/api/pedidos/cancelar/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+        const data = await response.json();
+  
+        if (response.ok) {
+          const cancelarArray = Object.values(data.data);
+          setCancelarEnvio(cancelarArray);
+          swal("Envio Cancelado", "El envio ha sido cancelada con exito", "success");
+          fetchData();
+        } else {
+          console.error("Error al recibir el pedido", data);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de recibir el pedido", error);
+      }
+    }
+  }
+
   const fetchData = async () => {
     try {
       const responseEnvios = await fetch("http://localhost:3000/api/pedidos/getAll");
@@ -109,6 +249,9 @@ const Envios = () => {
                       }
                       total={envio.total}
                       fecha={fechaFormateada}
+                      id={envio.id}
+                      handleProcesarEnvio={() => handleProcesarEnvio(envio.id)}
+                      handleCancelarEnvio={() => handleCancelarEnvio(envio.id)}
                     />
                   );
                 })
@@ -154,6 +297,8 @@ const Envios = () => {
                       }
                       total={envio.total}
                       fecha={fechaFormateada}
+                      id={envio.id}
+                      handleEnviarEnvio={() => handleEnviarEnvio(envio.id)}
                     />
                   );
                 })
@@ -200,6 +345,8 @@ const Envios = () => {
                       }
                       total={envio.total}
                       fecha={fechaFormateada}
+                      id={envio.id}
+                      handleEntregarEnvio={() => handleEntregarEnvio(envio.id)}
                     />
                   );
                 })

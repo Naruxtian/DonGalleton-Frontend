@@ -70,14 +70,14 @@ const Navbar = () => {
             {userRole === 'Admin' &&  <a href="/proveedores">Proveedores</a>}
             {userRole === 'Admin' && <a href="/provisiones">Provisiones</a>}
             {userRole === 'Admin' && <a href="/envios">Envios</a>}
-            {userRole === 'Admin' && <a href="/estadisticas">Estadisticas</a>}
+            {/* {userRole === 'Admin' && <a href="/estadisticas">Estadisticas</a>} */}
 
             {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/galletas">Galletas</a>}
             {/* <a href="/ingredientes">Panes/ ingredientes</a> */}
             {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/cocina">Cocina</a>}
 
             {/* {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/pan-seleccionado">Cocina/ GalletaSeleccionao</a>} */}
-            {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/ordenes">OrdenesDeCocina</a>}
+            {/* {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/ordenes">OrdenesDeCocina</a>} */}
             {(userRole === 'Admin' || userRole === 'Cocinero') && <a href="/materia_prima">Materia prima</a>}
 
             {userRole === 'Admin' && <a href="/usuarios">Usuarios</a>}

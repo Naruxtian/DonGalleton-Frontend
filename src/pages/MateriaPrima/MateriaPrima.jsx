@@ -49,6 +49,40 @@ const MateriaPrima = () => {
       console.error("Error en la solicitud de agregar materia prima", error);
     }
   };
+
+  const handleMermar = async (id) => {
+    const nombre = document.getElementById("nombre").value;
+    const unidad = document.getElementById("unidad").value;
+
+    if (!nombre || !unidad) {
+      swal("Error", "Todos los campos son obligatorios", "error");
+      return;
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:3000/api/materiaPrima/mermar/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nombre, inventario, unidad }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log("Materia prima creada correctamente", data);
+        const updatedMateriasPrimas = [...materiasPrimas, data.data];
+        setMateriasPrimas(updatedMateriasPrimas);
+        setMostrarFormulario(false);
+        swal("Materia prima agregada correctamente", "", "success");
+      } else {
+        console.error("Error al crear la materia prima", data);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud de agregar materia prima", error);
+    }
+  };
   
   const handleEliminar = async (nombre, cantidadARestar) => {
     const confirmacion = window.confirm("¿Estás seguro de restar inventario a esta materia prima?");

@@ -8,6 +8,9 @@ const TrEnviosPendiente = ({
   fecha,
   total,
   estatus = "Pendiente",
+  id,
+  handleProcesarEnvio,
+  handleCancelarEnvio
 }) => {
   return (
     <tr>
@@ -33,8 +36,8 @@ const TrEnviosPendiente = ({
         {estatus}
       </td>
       <td>
-        <button className="botonAdvertencia">Procesar</button>
-        <button className="botonPeligro">Cancelar</button>
+        <button className="botonAdvertencia" onClick={handleProcesarEnvio}>Procesar</button>
+        <button className="botonPeligro" onClick={handleCancelarEnvio}>Cancelar</button>
       </td>
     </tr>
   );
