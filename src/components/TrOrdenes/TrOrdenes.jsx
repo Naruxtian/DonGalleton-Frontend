@@ -5,6 +5,7 @@ const TrOrdenes = ({ pan, lote, fecha, estatus, handleCocinarOrden, id, handleCa
   const [galletas, setGalletas] = useState([]);
   const [nombresGalletas, setNombresGalletas] = useState({});
   const [cantidadCocina, setCantidadCocina] = useState(0);
+  let cantidadTotal = 0;
   
 
   const fetchData = async () => {
@@ -50,17 +51,10 @@ const TrOrdenes = ({ pan, lote, fecha, estatus, handleCocinarOrden, id, handleCa
     }
   }, [fecha]);
 
-  const loteOrdenNumero = parseInt(lote, 10);
-  console.log(loteOrdenNumero);
-  const cantidadTotal = isNaN(loteOrdenNumero) ? "No disponible" : loteOrdenNumero * (cantidadCocina || 0);
-  console.log(cantidadTotal);
-
-
   return (
     <tr>
       <td>{pan}</td>
       <td>{lote}</td>
-      <td> {cantidadTotal} Pzs</td>
       <td>{fechaFormateada}</td>
       <td
         className={

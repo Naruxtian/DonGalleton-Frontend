@@ -10,6 +10,9 @@ const Ordenes = () => {
   const [ordenes, setOrdenes] = useState([]);
   const [galletas, setGalletas] = useState([]);
   const [nombresGalletas, setNombresGalletas] = useState({});
+  const [cocinarOrden, setCocinarOrden] = useState([]);
+  const [completarOrden, setCompletarOrden] = useState([]);
+  const [cancelarOrden, setCancelarOrden] = useState([]);
 
   const handleCocinarOrden = async (id) => {
 
@@ -38,7 +41,7 @@ const Ordenes = () => {
   
         if (response.ok) {
           const cocinaArray = Object.values(data.data);
-          setProvisiones(cocinaArray);
+          setCocinarOrden(cocinaArray);
           swal("Orden cocinada", "La orden ha sido cocinada con exito", "success");
           fetchData();
         } else {
@@ -77,8 +80,8 @@ const Ordenes = () => {
         const data = await response.json();
   
         if (response.ok) {
-          const cocinaArray = Object.values(data.data);
-          setProvisiones(cocinaArray);
+          const completarArray = Object.values(data.data);
+          setCompletarOrden(completarArray);
           swal("Orden Completada", "La orden ha sido completada con exito", "success");
           fetchData();
         } else {
@@ -117,8 +120,8 @@ const Ordenes = () => {
         const data = await response.json();
   
         if (response.ok) {
-          const cocinaArray = Object.values(data.data);
-          setProvisiones(cocinaArray);
+          const cancelarArray = Object.values(data.data);
+          setCompletarOrden(cancelarArray);
           swal("Orden Cancelada", "La orden ha sido cancelada con exito", "success");
           fetchData();
         } else {
@@ -181,7 +184,6 @@ const Ordenes = () => {
             <tr>
               <th>Galleta</th>
               <th>Lote</th>
-              <th>Panes en total</th>
               <th>Fecha</th>
               <th>Estatus</th>
               <th>Acciones</th>
@@ -189,20 +191,20 @@ const Ordenes = () => {
           </thead>
           <tbody>
             {
-              Array.isArray(ordenes) && ordenes
-              .filter((orden) => orden.estatus === 1)
-              .map((orden) => (
-                <TrOrdenes
-                  key={orden.id}
-                  pan={nombresGalletas[orden.id_galleta] || 'Nombre no disponible'}
-                  lote={orden.cantidadLotes}
-                  fecha={orden.fecha}
-                  estatus={orden.estatus ? "Pendiente" : "Entregado"}
-                  handleCocinarOrden={() => handleCocinarOrden(orden.id)}
-                  handleCancelarOrden={() => handleCancelarOrden(orden.id)}
-                  id={orden.id}
-                />
-              ))
+                Array.isArray(ordenes) && ordenes
+                .filter((orden) => orden.estatus === 1)
+                .map((orden) => (
+                  <TrOrdenes
+                    key={orden.id}
+                    pan={nombresGalletas[orden.id_galleta] || 'Nombre no disponible'}
+                    lote={orden.cantidadLotes}
+                    fecha={orden.fecha}
+                    estatus={orden.estatus ? "Pendiente" : "Entregado"}
+                    handleCocinarOrden={() => handleCocinarOrden(orden.id)}
+                    handleCancelarOrden={() => handleCancelarOrden(orden.id)}
+                    id={orden.id}
+                  />
+                ))
             }
           </tbody>
         </table>
@@ -215,7 +217,6 @@ const Ordenes = () => {
             <tr>
               <th>Galleta</th>
               <th>Lote</th>
-              <th>Panes en total</th>
               <th>Fecha</th>
               <th>Estatus</th>
               <th>Acciones</th>
@@ -227,7 +228,7 @@ const Ordenes = () => {
               .filter((orden) => orden.estatus === 2)
               .map((orden) => (
                 <TrOrdenesCocinando
-                  key={orden.id_galleta}
+                  key={orden.id}
                   pan={nombresGalletas[orden.id_galleta] || 'Nombre no disponible'}
                   lote={orden.cantidadLotes}
                   fecha={orden.fecha}
@@ -248,7 +249,6 @@ const Ordenes = () => {
             <tr>
               <th>Pan</th>
               <th>Lote</th>
-              <th>Panes en total</th>
               <th>Fecha</th>
               <th>Estatus</th>
             </tr>
@@ -259,7 +259,7 @@ const Ordenes = () => {
               .filter((orden) => orden.estatus === 3)
               .map((orden) => (
                 <TrOrdenesCompletadas
-                  key={orden.id_galleta}
+                  key={orden.id}
                   pan={nombresGalletas[orden.id_galleta] || 'Nombre no disponible'}
                   lote={orden.cantidadLotes}
                   fecha={orden.fecha}

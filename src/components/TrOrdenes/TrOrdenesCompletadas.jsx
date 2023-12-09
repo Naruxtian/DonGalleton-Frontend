@@ -22,7 +22,6 @@ const TrOrdenesCompletadas = ({ pan, lote, fecha, estatus, id, handleCompletarOr
     <tr>
       <td>{pan}</td>
       <td>{lote}</td>
-      <td> Pzs</td>
       <td>{fechaFormateada}</td>
       <td
         className={

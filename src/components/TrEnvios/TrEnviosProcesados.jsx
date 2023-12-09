@@ -8,6 +8,8 @@ const TrEnviosProcesados = ({
   total,
   fecha,
   estatus = "Procesado",
+  id,
+  handleEnviarEnvio
 }) => {
   return (
     <tr>
@@ -33,7 +35,7 @@ const TrEnviosProcesados = ({
         {estatus}
       </td>
       <td>
-        <button className="botonAdvertencia">Enviar</button>
+        <button className="botonAdvertencia" onClick={handleEnviarEnvio}>Enviar</button>
       </td>
     </tr>
   );
