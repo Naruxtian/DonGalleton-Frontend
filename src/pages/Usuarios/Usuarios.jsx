@@ -51,7 +51,6 @@ const Usuarios = () => {
         document.getElementById("nombre").value = "";
         document.getElementById("telefono").value = "";
         document.getElementById("direccion").value = "";
-        window.location.href = "/login";
       } else {
         console.error("Error al registrar el usuario", data);
       }
@@ -150,7 +149,7 @@ const Usuarios = () => {
         <br />
         <br />
         <input
-          type="text"
+          type="password"
           name="contrasena"
           id="contrasena"
           placeholder="Contraseña"
@@ -175,15 +174,16 @@ const Usuarios = () => {
           type="text"
           name="telefono"
           id="telefono"
+          maxLength={10}
           placeholder="Telefono"
         />
         <br />
         <br />
         <button
-          className="botonAdvertencia"
+          className="botonConfirmacion"
           onClick={() => handleRegistrarUsuario()}
         >
-          Cambiar
+          Guardar
         </button>
       </div>
     </div>

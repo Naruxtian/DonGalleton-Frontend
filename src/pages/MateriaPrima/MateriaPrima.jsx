@@ -6,6 +6,7 @@ import swal from "sweetalert";
 const MateriaPrima = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [materiasPrimas, setMateriasPrimas] = useState([]);
+  const [mermarmateriasPrimas, setMermarMateriasPrimas] = useState([]);
 
   const activarFormulario = () => {
     setMostrarFormulario(!mostrarFormulario);
@@ -52,12 +53,7 @@ const MateriaPrima = () => {
 
   const handleMermar = async (id) => {
     const nombre = document.getElementById("nombre").value;
-    const unidad = document.getElementById("unidad").value;
-
-    if (!nombre || !unidad) {
-      swal("Error", "Todos los campos son obligatorios", "error");
-      return;
-    }
+    const unidad = document.getElementById("restar").value;
   
     try {
       const response = await fetch(`http://localhost:3000/api/materiaPrima/mermar/${id}`, {
@@ -65,22 +61,23 @@ const MateriaPrima = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ nombre, inventario, unidad }),
+        body: JSON.stringify({ nombre, unidad }),
       });
   
       const data = await response.json();
   
       if (response.ok) {
         console.log("Materia prima creada correctamente", data);
-        const updatedMateriasPrimas = [...materiasPrimas, data.data];
-        setMateriasPrimas(updatedMateriasPrimas);
+        const mermarMateriasPrimas = [...materiasPrimas, data.data];
+        setMermarMateriasPrimas(mermarMateriasPrimas);
         setMostrarFormulario(false);
-        swal("Materia prima agregada correctamente", "", "success");
+        swal("Materia prima mermada correctamente", "", "success");
+        fetchData();
       } else {
-        console.error("Error al crear la materia prima", data);
+        console.error("Error al mermar la materia prima", data);
       }
     } catch (error) {
-      console.error("Error en la solicitud de agregar materia prima", error);
+      console.error("Error en la solicitud de mermar materia prima", error);
     }
   };
   
@@ -119,25 +116,25 @@ const MateriaPrima = () => {
       console.error("Error en la solicitud de restar inventario", error);
     }
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/materiaPrima/getAll");
+      const data = await response.json();
+
+      if (response.ok) {
+        const materiasPrimasArray = Object.values(data.data);
+        setMateriasPrimas(materiasPrimasArray);
+      } else {
+        console.error("Error al obtener las materias primas", data);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud de obtener materias primas", error);
+    }
+  };
   
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/api/materiaPrima/getAll");
-        const data = await response.json();
-
-        if (response.ok) {
-          const materiasPrimasArray = Object.values(data.data);
-          setMateriasPrimas(materiasPrimasArray);
-        } else {
-          console.error("Error al obtener las materias primas", data);
-        }
-      } catch (error) {
-        console.error("Error en la solicitud de obtener materias primas", error);
-      }
-    };
-
     fetchData();
   }, []); 
 
@@ -176,7 +173,8 @@ const MateriaPrima = () => {
                   producto={materiaPrima.nombre}
                   inventario={materiaPrima.inventario}
                   unidad={materiaPrima.unidad}
-                  handleRestarInventario={handleEliminar}
+                  handleMermar={() => handleMermar(materiaPrima.id)}
+
                 />
               ))}
               </tbody>

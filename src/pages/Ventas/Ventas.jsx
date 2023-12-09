@@ -1,8 +1,29 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./Ventas.css";
 import TrTablaVentas from "../../components/TrTablaVentas/TrTablaVentas";
 
 const Ventas = () => {
+
+  const [ventas, setVentas] = useState([]);
+
+  useEffect(() => {
+    const getUsuarios = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/pedidos/getAll");
+        const data = await response.json();
+        if (response.ok) {
+          const usuariosArray = Object.values(data.data);
+          setVentas(usuariosArray);
+        } else {
+          console.error("Error al obtener los usuarios", data);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de obtener los usuarios", error);
+      }
+    };
+    getUsuarios();
+  }, []);
+
   return (
     <div className="ventas">
       <h1>ventas</h1>
@@ -21,16 +42,6 @@ const Ventas = () => {
           <tbody>
             <TrTablaVentas
               nombre={"galleta de chocolate"}
-              total={"12"}
-              fecha={"12/12/2000"}
-            />
-            <TrTablaVentas
-              nombre={"galleta de vainilla"}
-              total={"12"}
-              fecha={"12/12/2000"}
-            />
-            <TrTablaVentas
-              nombre={"galleta de mantequilla"}
               total={"12"}
               fecha={"12/12/2000"}
             />

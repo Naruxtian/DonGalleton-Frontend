@@ -33,7 +33,7 @@ const Carrito = () => {
         total: calcularTotal(),
         galletas: carrito.map((producto) => ({
           galleta: producto.id,
-          cantidad: producto.cantidad,
+          cantidad: parseInt(producto.cantidad),
         })),
       };
 
