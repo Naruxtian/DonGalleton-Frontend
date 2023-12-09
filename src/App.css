@@ -1,0 +1,26 @@
+
+.title{
+    font-size: 60px; 
+    color: #5f3f15
+}
+
+hr{
+    border-top: 4px solid #5f3f15;
+}
+p{
+    color:#5f3f15; 
+    text-align: justify;
+}
+
+.imgInfo{
+    width: 100%; 
+    height: 350px;
+}
+
+.imgCarrousel{
+    width: 90%; height: 550px;
+}
+
+.cardInfoEmpresa{
+    height: 400px;
+}

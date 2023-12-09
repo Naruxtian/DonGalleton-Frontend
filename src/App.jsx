@@ -21,6 +21,7 @@ import PanElejido from "./pages/Cocina/PanElejido";
 import Ordenes from "./pages/Cocina/Ordenes";
 import Galletas from "./pages/Panes/Panes";
 import Ingredientes from "./pages/Panes/Ingredientes";
+import "./App.css";
 
 const App = () => {
   const [user, setUser] = useState(null);
