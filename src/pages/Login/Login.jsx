@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 
 import "./Login.css";
+import swal from "sweetalert";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -41,6 +42,9 @@ const Login = () => {
         window.location.href = "/catalogo";
       } else {
         console.error("Error al iniciar sesión", responseData);
+        swal("Error", "Datos incorrectos", "error");
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
       }
     } catch (error) {
       console.error("Error en la solicitud de inicio de sesión", error);
