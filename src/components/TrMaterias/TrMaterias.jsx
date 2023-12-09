@@ -1,13 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-const TrMaterias = ({ producto, inventario, unidad, handleRestarInventario, handleMermar }) => {
-  const [cantidadARestar, setCantidadARestar] = useState();
-
-  const restarInventario = () => {
-    handleRestarInventario(producto, cantidadARestar);
-    setCantidadARestar(1);
-  };
+const TrMaterias = ({ producto, inventario, unidad, handleRestarInventario, handleMermar, cantidadMermar, setCantidadMermar }) => {
   
   return (
     <tr>
@@ -15,8 +9,8 @@ const TrMaterias = ({ producto, inventario, unidad, handleRestarInventario, hand
       <td>{inventario}</td>
       <td>{unidad}</td>
       <td>
-        <input type="number" name="restar" id="restar" value={cantidadARestar}
-          onChange={(e) => setCantidadARestar(parseInt(e.target.value, 10) || 0)} />
+        <input type="number" name="restar" id="restar" value={cantidadMermar}
+          onChange={(e) => setCantidadMermar(parseInt(e.target.value, 10) || 0)} />
         <button className="botonPeligro" onClick={handleMermar}>Eliminar</button>
       </td>
     </tr>

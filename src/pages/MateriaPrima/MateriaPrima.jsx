@@ -7,6 +7,7 @@ const MateriaPrima = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [materiasPrimas, setMateriasPrimas] = useState([]);
   const [mermarmateriasPrimas, setMermarMateriasPrimas] = useState([]);
+  const [cantidadMermar, setCantidadMermar] = useState(0);
 
   const activarFormulario = () => {
     setMostrarFormulario(!mostrarFormulario);
@@ -52,22 +53,20 @@ const MateriaPrima = () => {
   };
 
   const handleMermar = async (id) => {
-    const nombre = document.getElementById("nombre").value;
-    const unidad = document.getElementById("restar").value;
   
     try {
       const response = await fetch(`http://localhost:3000/api/materiaPrima/mermar/${id}`, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ nombre, unidad }),
+        body: JSON.stringify({ "cantidad": cantidadMermar }),
       });
   
       const data = await response.json();
   
       if (response.ok) {
-        console.log("Materia prima creada correctamente", data);
+        console.log("Materia prima mermada correctamente", data);
         const mermarMateriasPrimas = [...materiasPrimas, data.data];
         setMermarMateriasPrimas(mermarMateriasPrimas);
         setMostrarFormulario(false);
@@ -174,6 +173,8 @@ const MateriaPrima = () => {
                   inventario={materiaPrima.inventario}
                   unidad={materiaPrima.unidad}
                   handleMermar={() => handleMermar(materiaPrima.id)}
+                  cantidadMermar={cantidadMermar}
+                  setCantidadMermar={setCantidadMermar}
 
                 />
               ))}
